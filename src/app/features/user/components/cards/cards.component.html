@@ -1,0 +1,65 @@
+<!-- Card -->
+<article
+class="relative flex flex-col overflow-hidden rounded-lg border"
+>
+<div class="aspect-square overflow-hidden">
+  <img
+    class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125"
+    src="https://cdn.pixabay.com/photo/2014/07/22/09/59/bread-399286_1280.jpg"
+    alt=""
+  />
+</div>
+<div class="absolute top-0 m-2 rounded-full bg-white">
+  <p
+   [ngClass]="{
+    'rounded-full':true,
+    'bg-green-500':globalcolor==='green',
+    'bg-red-500':globalcolor==='red',
+    'bg-yellow-500':globalcolor==='yellow',
+    'p-1': true,
+    'text-[8px]':true,
+    'font-bold':true,
+    'uppercase':true,
+    'tracking-wide':true,
+    'text-white':true,
+    'sm:py-1':true,
+    'sm:px-3':true
+
+    
+   }" >
+    Sale
+  </p>
+</div>
+<div
+  class="my-4 mx-auto flex w-10/12 flex-col items-start justify-between"
+>
+  <div class="mb-2 flex">
+    <p class="mr-3 text-sm font-semibold">Precio S/.{{product.precioLocal}}</p>
+  </div>
+  <h3 class="mb-2 text-sm text-gray-400">{{product.productos.nombre}}</h3>
+</div>
+<button
+  class="group mx-auto mb-2 flex h-10 w-10/12 items-stretch overflow-hidden rounded-md text-gray-600"
+  (click)="navegarAdetalleProductos(product.productos.id)">
+  <div
+  [ngClass]="{
+    'flex':true,
+    'w-full':true,
+    'items-center':true,
+    'justify-center':true,
+    'bg-gray-100':true,
+    'text-xs':true,
+    'uppercase':true,
+    'transition':true,
+    'group-hover:bg-emerald-600':globalcolor==='green',
+    'group-hover:bg-red-600':globalcolor==='red',
+    'group-hover:bg-yellow-600':globalcolor==='yellow',
+    'group-hover:text-white':true           
+  }"
+  >
+    MAS INFORMACIÓN
+  </div>
+</button>
+</article>
+
+<!-- END OF CARD -->

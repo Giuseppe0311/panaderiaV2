@@ -1,0 +1,8 @@
+<h1>BIENVENIDO SELECCIONA TU SUCURSAL "INSANO"</h1>
+<h2>Nombre de la empresa : {{nombreEmpresa.nombre}}</h2>
+<select (change)="change($event)" name="" id="">
+    @if (data && data.length > 0) { @for (item of data; track item.id) {
+    <option [selected]="item.id==data[0].id" value="{{ item.id }}">{{ item.nombre }}</option>
+    } }
+  </select>
+  <button (click)="toloyout()">CONFIRMAR</button>
