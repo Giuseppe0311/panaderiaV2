@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AdminempresaApiService } from '../../../features/admin/services/adminempresa-api.service';
+import { ApiServiceService, ApiType } from '../../../core/services/api-service.service';
 
 @Component({
   selector: 'app-categorias',
@@ -16,7 +16,7 @@ export class CategoriasComponent {
  router= inject(ActivatedRoute);
  idempresa: number | null = null;
  /* VARIABLES DE SERVICIOS */
- apiserviceadmin = inject(AdminempresaApiService);
+ apiserviceadmin = inject(ApiServiceService);
 
  /* VARIABLES DE FORMULARIO */
  formulario: FormGroup;
@@ -73,7 +73,7 @@ export class CategoriasComponent {
  }
  /* FUNCIONES DE CARGA DE DATOS */
  loadData() {
-   this.apiserviceadmin.getData('categorias',{idempresa:this.idempresa}).subscribe({
+   this.apiserviceadmin.getData(ApiType.Public,'categorias',{idempresa:this.idempresa}).subscribe({
      next: (data) => {
        this.data = data;
        console.log(this.data);
@@ -94,7 +94,7 @@ export class CategoriasComponent {
  showModaleditar(id: number) {
    this.showEditModal = true;
    this.apiserviceadmin
-     .getData('categorias', { idcategoria: id })
+     .getData(ApiType.Public,'categorias', { idcategoria: id })
      .subscribe((data) => {
        this.editdata = data;
        console.log(this.editdata);
@@ -138,7 +138,7 @@ export class CategoriasComponent {
       descripcion: this.formulario.value.descripcion,
       idEmpresa: this.idempresa,
     };
-    this.apiserviceadmin.postData('categorias', data).subscribe(
+    this.apiserviceadmin.postData(ApiType.Admin,'categorias', data).subscribe(
       (res: any) => {
         console.log(res);
           this.isLoading = false;
@@ -169,7 +169,7 @@ export class CategoriasComponent {
         descripcion: this.updateform.value.descripcion,
         idEmpresa: this.idempresa,
       };
-      this.apiserviceadmin.updateData('categorias', this.updateform.value.id, data).subscribe(
+      this.apiserviceadmin.updateData(ApiType.Admin,'categorias', this.updateform.value.id, data).subscribe(
         (res: any) => {
           console.log(res);
             this.loadData();
@@ -192,7 +192,7 @@ export class CategoriasComponent {
  eliminar() {
    if (this.idAEliminar!==null) {
     this.isLoading = true;
-     this.apiserviceadmin.deleteData('categorias', this.idAEliminar).subscribe(
+     this.apiserviceadmin.deleteData(ApiType.Admin,'categorias', this.idAEliminar).subscribe(
        (res: any) => {
          console.log(res);
          this.loadData();

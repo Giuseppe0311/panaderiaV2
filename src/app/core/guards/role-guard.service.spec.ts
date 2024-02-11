@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SuperadminApiService } from './superadmin-api.service';
+import { RoleGuardService } from './role-guard.service';
 
-describe('SuperadminApiService', () => {
-  let service: SuperadminApiService;
+describe('RoleGuardService', () => {
+  let service: RoleGuardService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(SuperadminApiService);
+    service = TestBed.inject(RoleGuardService);
   });
 
   it('should be created', () => {

@@ -1,0 +1,148 @@
+<div class="overflow-x-auto relative p-44">
+    <h1>MIS VENTAS</h1>
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+      <thead
+        class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+      >
+        <tr>
+          <th scope="col" class="py-3 px-6">Nombre Usuario</th>
+          <th scope="col" class="py-3 px-6">Tipo de Pago</th>
+          <th scope="col" class="py-3 px-6">Tipo Comprobante</th>
+          <th scope="col" class="py-3 px-6">Numero Comprobante</th>
+          <th scope="col" class="py-3 px-6">Total</th>
+          <th scope="col" class="py-3 px-6">Fecha</th>
+          <th scope="col" class="py-3 px-6">Correo</th>
+          <th scope="col" class="py-3 px-6">Telefono</th>
+          <th scope="col" class="py-3 px-6">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of data; track item.id) {
+        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+          <th
+            scope="row"
+            class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+          >
+            {{ item.nombreUsuario }}
+          </th>
+          <td class="py-4 px-6">
+            {{ item.tipoPago }}
+          </td>
+          <td class="py-4 px-6">
+            {{ item.tipoComprobante }}
+          </td>
+          <td class="py-4 px-6">
+            {{ item.numComprobante }}
+          </td>
+          <td class="py-4 px-6">
+            {{ item.total }}
+          </td>
+          <td class="py-4 px-6">
+            {{ item.fecha }}
+          </td>
+          <td class="py-4 px-6">
+            {{ item.correo }}
+          </td>
+          <td class="py-4 px-6">
+            {{ item.telefono }}
+          </td>
+          <td class="py-4 px-6 text-right flex justify-end items-center gap-2">
+
+            <button
+              (click)="shoModaltDetalle(item.id)"
+              class="text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800"
+              type="button"
+            >
+              <svg
+                class="w-4 h-4 mr-2 -ml-1"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"
+                ></path>
+                <path
+                  fill-rule="evenodd"
+                  d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              Detalles
+            </button>
+          </td>
+        </tr>
+        }
+        <!-- ... más filas de la tabla ... -->
+      </tbody>
+    </table>
+    <!-- MODAL HERE -->
+
+
+    <!-- MODAL MUESTRA DEL DETALLE -->
+        @if (showDetalleModal) {
+    <div  class="fixed z-10 inset-0 flex items-center justify-center">
+      <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+      <div
+        class="relative bg-white rounded-lg overflow-hidden shadow-xl max-w-screen-md w-full m-4"
+      >
+        <!-- Modal panel -->
+        <div class="px-6 py-4">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">
+            Detalles de la venta
+          </h3>
+        </div>
+        <!-- AQUI LA LOGICA DEL FORMULARIO -->
+        <div class="overflow-y-auto max-h-[calc(100vh-210px)] px-6">
+            <table  class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead
+                  class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+                >
+                  <tr>
+                    <th scope="col" class="py-3 px-6">Nombre del Producto</th>
+                    <th scope="col" class="py-3 px-6">Cantidad</th>
+                    <th scope="col" class="py-3 px-6">Precio de Venta</th>
+                    <th scope="col" class="py-3 px-6">Subtotal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (item of detalleventasData; track item.id) {
+                  <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <th
+                      scope="row"
+                      class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    >
+                      {{ item.nombreProducto }}
+                    </th>
+                    <td class="py-4 px-6">
+                      {{ item.cantidad }}
+                    </td>
+                    <td class="py-4 px-6">
+                     S/.{{ item.precioVenta }}
+                    </td>
+                    <td class="py-4 px-6">
+                      S/.{{ item.subtotal }}
+                    </td>
+                  </tr>
+                  }
+                  <!-- ... más filas de la tabla ... -->
+                </tbody>
+              </table>
+          </div>
+        <div
+          class="bg-gray-50 px-4 py-3 sm:px-6 flex items-center justify-end p-4 gap-4 flex-row"
+        >
+          <button
+            (click)="closemodaldetalle()"
+            type="button"
+            class="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-black text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 sm:w-auto sm:text-sm"
+          >
+            Cerrar
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    }
+  </div>
+  

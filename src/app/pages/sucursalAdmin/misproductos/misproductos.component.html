@@ -152,7 +152,7 @@
               @for (item of productosdata; track item.id) {
               <option [value]="item.id">
                 Nombre : {{ item.nombre }}, categoria :
-                {{ item.nombrecategoria }}, precio Base : {{ item.precioBase }}
+                {{ item.nombrecategoria }}, Unidad de Medida : {{item.nombreUnidadMedida}}, precio Base : {{ item.precioBase }}
               </option>
               }
             </select>
@@ -334,7 +334,7 @@
               @for (item of productosdata; track item.id) {
               <option [value]="item.id">
                 Nombre : {{ item.nombre }}, categoria :
-                {{ item.nombrecategoria }}, precio Base : {{ item.precioBase }}
+                {{ item.nombrecategoria }}, Unidad de Medida : {{item.nombreUnidadMedida}}, precio Base : {{ item.precioBase }}
               </option>
               }
             </select>

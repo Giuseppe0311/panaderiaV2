@@ -15,6 +15,7 @@
         <th scope="col" class="py-3 px-6">Nombre del Producto</th>
         <th scope="col" class="py-3 px-6">Descripcion</th>
         <th scope="col" class="py-3 px-6">Categoria</th>
+        <th scope="col" class="py-3 px-6">Unidad Medida</th>
         <th scope="col" class="py-3 px-6">Imagen</th>
         <th scope="col" class="py-3 px-6">Precio Base</th>
         <th scope="col" class="py-3 px-6">stock</th>
@@ -35,6 +36,9 @@
         </td>
         <td class="py-4 px-6">
             {{ item.nombrecategoria }}
+          </td>
+          <td class="py-4 px-6">
+            {{ item.nombreUnidadMedida }}
           </td>
         <td class="py-4 px-6">
           <img style="width: 100px" src="{{ item.imagen }}" alt="" />
@@ -222,6 +226,34 @@
             <span style="color: red">Categoria requerida</span>
            }
           </div>
+          <!--  -->
+
+          <div class="mb-4">
+            <label
+              class="block text-gray-700 text-sm font-bold mb-2"
+              for="unidad"
+            >
+              Unidad de Medida
+            </label>
+           <select
+                formControlName="unidad"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="unidad"
+                type="text"
+                placeholder="unidad de medida del producto"
+           >
+               @for (item of unidadmedidadata; track item.id) {
+                <option [value]="item.id">
+                    {{ item.nombre }}
+                </option>
+               }
+           </select>
+           @if (
+            hasErrors(formulario,'unidad', 'required')) {
+            <span style="color: red">Unidad de medida requerida</span>
+           }
+          </div>
+
 
           <div class="mb-4">
             <label
@@ -456,6 +488,35 @@
             <span style="color: red">Categoria requerida</span>
            }
           </div>
+<!--  -->
+          <div class="mb-4">
+            <label
+              class="block text-gray-700 text-sm font-bold mb-2"
+              for="unidad"
+            >
+              Unidad de Medida
+            </label>
+           <select
+                formControlName="unidad"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="unidad"
+                type="text"
+                placeholder="unidad de medida del producto"
+           >
+               @for (item of unidadmedidadata; track item.id) {
+                <option [value]="item.id">
+                    {{ item.nombre }}
+                </option>
+               }
+           </select>
+           @if (
+            hasErrors(updateform,'unidad', 'required')) {
+            <span style="color: red">Unidad de medida requerida</span>
+           }
+          </div>
+
+
+
 
           <div class="mb-4">
             <label

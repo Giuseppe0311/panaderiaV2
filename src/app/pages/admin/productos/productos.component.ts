@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AdminempresaApiService } from '../../../features/admin/services/adminempresa-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ApiServiceService, ApiType } from '../../../core/services/api-service.service';
 
 @Component({
   selector: 'app-productos',
@@ -16,7 +16,7 @@ export class ProductosComponent {
   router= inject(ActivatedRoute);
   idempresa: number | null = null;
   /* VARIABLES DE SERVICIOS */
-  apiserviceadmin = inject(AdminempresaApiService);
+  apiserviceadmin = inject(ApiServiceService);
 
   /* VARIABLES DE FORMULARIO */
   formulario: FormGroup;
@@ -31,6 +31,7 @@ export class ProductosComponent {
   /* VARIABLES DE DATOS */
   data: any = [];
   categoriasdata: any = [];
+  unidadmedidadata: any = [];
   editdata: any = [];
   selectedFile: File | null = null;
 
@@ -50,6 +51,7 @@ export class ProductosComponent {
       descripcion: ['', Validators.required],
       precioBase: ['', [Validators.required, Validators.pattern('^(\\d{1,3})(\\.\\d{1,2})?$')]],
       categoria: ['',Validators.required],
+      unidad: ['',[Validators.required]],
       stock: ['',[Validators.required, Validators.pattern('^[0-9]*$')]],
     });
     this.updateform = this.formbuild.group({
@@ -58,6 +60,7 @@ export class ProductosComponent {
       precioBase: ['', [Validators.required, Validators.pattern('^(\\d{1,3})(\\.\\d{1,2})?$')]],
       categoria: ['',Validators.required],
       stock: ['',[Validators.required, Validators.pattern('^[0-9]*$')]],
+      unidad: ['',[Validators.required]],
       id: [''],
     });
   }
@@ -96,7 +99,7 @@ export class ProductosComponent {
   }
   /* FUNCIONES DE CARGA DE DATOS */
   loadData() {
-    this.apiserviceadmin.getData('productos',{idempresa:this.idempresa}).subscribe({
+    this.apiserviceadmin.getData(ApiType.Public,'productos',{idempresa:this.idempresa}).subscribe({
       next: (data) => {
         this.data = data;
       },
@@ -106,7 +109,7 @@ export class ProductosComponent {
     });
   }
   loadCategorias() {
-    this.apiserviceadmin.getData('categorias',{idempresa:this.idempresa}).subscribe({
+    this.apiserviceadmin.getData(ApiType.Public,'categorias',{idempresa:this.idempresa}).subscribe({
       next: (data) => {
         this.categoriasdata = data;
         // console.log(this.categoriasdata);
@@ -117,19 +120,39 @@ export class ProductosComponent {
     });
   }
 
+  loadUnidadMedida() {
+    this.apiserviceadmin.getData(ApiType.Public,'unidadesmedida',{idempresa:this.idempresa}).subscribe({
+      next: (data) => {
+        this.unidadmedidadata = data;
+        console.log(this.unidadmedidadata);
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }
+
+
   /* FUNCIONES DE MODALES */
   showmodalregistrar() {
+    this.selectedFile = null;
     this.showregistermodal = !this.showregistermodal;
     this.showsuccess = false;
     this.showerror = false;
     this.formulario.reset();
     this.loadCategorias();
+    this.loadUnidadMedida();
+    this.formulario.reset();
   }
   showModaleditar(id: number) {
+    this.selectedFile = null;
+    //limpia todos los campos
+    this.updateform.reset();
     this.loadCategorias();
+    this.loadUnidadMedida();
     this.showEditModal = true;
     this.apiserviceadmin
-      .getData('productos', { idproducto: id })
+      .getData(ApiType.Public,'productos', { idproducto: id })
       .subscribe((data) => {
         this.editdata = data;
         console.log(this.editdata);
@@ -137,10 +160,12 @@ export class ProductosComponent {
           nombre: this.editdata.nombre,
           descripcion: this.editdata.descripcion,
           categoria: this.editdata.idcategoria,
+          unidad: this.editdata.idUnidadMedida,
           precioBase: this.editdata.precioBase,
           stock: this.editdata.stock,
           id: this.editdata.id,
         });
+        console.log(this.editdata.idUnidadMedida)
       });
   }
   closemodaleditar() {
@@ -179,14 +204,16 @@ export class ProductosComponent {
       formData.append('stock', this.formulario.get('stock')?.value);
       formData.append('idempresa', this.idempresa?.toString()!);
       formData.append('imagen', this.selectedFile, this.selectedFile.name);
+      formData.append('idunidadMedida', this.formulario.get('unidad')?.value);
 
-      this.apiserviceadmin.postDataformdata('productos', formData).subscribe(
+      this.apiserviceadmin.postDataformdata(ApiType.Admin,'productos', formData).subscribe(
         (res: any) => {
           console.log(res);
           this.isLoading = false;
           this.formulario.reset();
           this.loadData();
           this.showsuccess = true;
+          this.showregistermodal = false;
           //reload page
         },
         (err: any) => {
@@ -211,6 +238,7 @@ export class ProductosComponent {
       formData1.append('descripcion', this.updateform.get('descripcion')?.value);
       formData1.append('precioBase', this.updateform.get('precioBase')?.value);
       formData1.append('idcategoria', this.updateform.get('categoria')?.value);
+      formData1.append('idunidadMedida', this.updateform.get('unidad')?.value);
       formData1.append('stock', this.updateform.get('stock')?.value);
       formData1.append('idempresa', this.idempresa?.toString()!);
       if (this.selectedFile) { // Verifica si hay un archivo seleccionado
@@ -218,6 +246,7 @@ export class ProductosComponent {
       }
       this.apiserviceadmin
         .updateDataFormdata(
+          ApiType.Admin,
           'productos',
           this.updateform.get('id')?.value,
           formData1
@@ -246,7 +275,7 @@ export class ProductosComponent {
   eliminar() {
     if (this.idAEliminar!==null) {
       this.isLoading = true;
-      this.apiserviceadmin.deleteData('productos', this.idAEliminar).subscribe(
+      this.apiserviceadmin.deleteData(ApiType.Admin,'productos', this.idAEliminar).subscribe(
         (res: any) => {
           console.log(res);
           this.loadData();

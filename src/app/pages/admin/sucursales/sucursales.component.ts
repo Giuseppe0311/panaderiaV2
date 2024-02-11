@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AdminempresaApiService } from '../../../features/admin/services/adminempresa-api.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ApiServiceService, ApiType } from '../../../core/services/api-service.service';
 
 @Component({
   selector: 'app-sucursales',
@@ -16,7 +16,7 @@ route = inject(Router);
 router= inject(ActivatedRoute);
 idempresa: number | null = null;
 /* VARIABLES DE SERVICIOS */
-apiserviceadmin = inject(AdminempresaApiService);
+apiserviceadmin = inject(ApiServiceService);
 
 /* VARIABLES DE FORMULARIO */
 formulario: FormGroup;
@@ -78,7 +78,7 @@ ngOnInit(): void {
 }
 /* FUNCIONES DE CARGA DE DATOS */
 loadData() {
-  this.apiserviceadmin.getData('sucursales',{idempresa:this.idempresa}).subscribe({
+  this.apiserviceadmin.getData(ApiType.Public,'sucursales',{idempresa:this.idempresa}).subscribe({
     next: (data) => {
       this.data = data;
       console.log(this.data);
@@ -99,7 +99,7 @@ showmodalregistrar() {
 showModaleditar(id: number) {
   this.showEditModal = true;
   this.apiserviceadmin
-    .getData('sucursales', { idsucursal: id })
+    .getData(ApiType.Public,'sucursales', { idsucursal: id })
     .subscribe((data) => {
       this.editdata = data;
       this.updateform.patchValue({
@@ -148,7 +148,7 @@ registrar() {
     informacion: this.formulario.value.informacion,
     idempresa: this.idempresa,
    };
-   this.apiserviceadmin.postData('sucursales', data).subscribe(
+   this.apiserviceadmin.postData(ApiType.Admin,'sucursales', data).subscribe(
      (res: any) => {
        console.log(res);
          this.isLoading = false;
@@ -182,7 +182,7 @@ actualizar(){
       idempresa: this.idempresa,
       id: this.updateform.value.id,
      };
-     this.apiserviceadmin.updateData('sucursales', this.updateform.value.id, data).subscribe(
+     this.apiserviceadmin.updateData(ApiType.Admin,'sucursales', this.updateform.value.id, data).subscribe(
        (res: any) => {
          console.log(res);
            this.loadData();
@@ -205,7 +205,7 @@ actualizar(){
 eliminar() {
   if (this.idAEliminar!==null) {
    this.isLoading = true;
-    this.apiserviceadmin.deleteData('sucursales', this.idAEliminar).subscribe(
+    this.apiserviceadmin.deleteData(ApiType.Admin,'sucursales', this.idAEliminar).subscribe(
       (res: any) => {
         console.log(res);
         this.loadData();

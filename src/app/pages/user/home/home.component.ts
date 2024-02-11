@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { UserApiService } from '../../../features/user/services/user-api.service';
 import { RouterLink } from '@angular/router';
+import { ApiServiceService, ApiType } from '../../../core/services/api-service.service';
 
 @Component({
   selector: 'app-home',
@@ -11,10 +11,10 @@ import { RouterLink } from '@angular/router';
 })
 export class HomeComponent implements OnInit{
 
-  private dataservice = inject(UserApiService)
+  private dataservice = inject(ApiServiceService)
   datos : any[] = []
   ngOnInit(): void {
-    this.dataservice.getData('empresas').subscribe(data =>{
+    this.dataservice.getData(ApiType.Public,'empresas').subscribe(data =>{
       this.datos=data
       console.log(data)
     })

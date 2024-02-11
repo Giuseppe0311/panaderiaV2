@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserApiService } from '../../../features/user/services/user-api.service';
+import { ApiServiceService, ApiType } from '../../../core/services/api-service.service';
 
 @Component({
   selector: 'app-sucursal-selecction',
@@ -11,7 +11,7 @@ import { UserApiService } from '../../../features/user/services/user-api.service
 })
 export class SucursalSelecctionComponent implements OnInit{
   private route = inject(ActivatedRoute)
-  private dataservice=inject(UserApiService)
+  private dataservice=inject(ApiServiceService)
   private router= inject(Router)
   private selectedIdEmpresa : number = 0
   private idEmpresa:number = 0
@@ -21,14 +21,14 @@ export class SucursalSelecctionComponent implements OnInit{
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.idEmpresa=params['idempresa']
-      this.dataservice.getData('sucursales',{"idempresa":this.idEmpresa}).subscribe(data => {
+      this.dataservice.getData(ApiType.Public,'sucursales',{"idempresa":this.idEmpresa}).subscribe(data => {
         this.data = data
         console.log(data)
         if (data.length>=1) {
           this.selectedIdEmpresa=data[0].id
         }
       })
-      this.dataservice.getData('empresas',{"idempresa":this.idEmpresa}).subscribe(nombreempresa =>{
+      this.dataservice.getData(ApiType.Public,'empresas',{"idempresa":this.idEmpresa}).subscribe(nombreempresa =>{
         this.nombreEmpresa=nombreempresa
       })
     })

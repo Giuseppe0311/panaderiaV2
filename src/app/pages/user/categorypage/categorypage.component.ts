@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductsComponent } from '../../../features/user/components/products/products.component';
 import { switchMap } from 'rxjs';
-import { UserApiService } from '../../../features/user/services/user-api.service';
+import { ApiServiceService, ApiType } from '../../../core/services/api-service.service';
 
 @Component({
   selector: 'app-categorypage',
@@ -16,7 +16,7 @@ export class CategorypageComponent {
   idcategoria : number = 0
   idsucursal : number = 0
   idempresa : number=0
-  dataservice = inject(UserApiService)
+  dataservice = inject(ApiServiceService)
   route = inject(ActivatedRoute)
   data : any[] = []
   ngOnInit(): void {
@@ -29,7 +29,7 @@ export class CategorypageComponent {
       switchMap(params => {
         this.idcategoria = Number(params.get('idcategoria'));
   
-        return this.dataservice.getData('productos',{"idsucursal":this.idsucursal,"idcategoria":this.idcategoria});
+        return this.dataservice.getData(ApiType.Public,'productos',{"idsucursal":this.idsucursal,"idcategoria":this.idcategoria});
       })
     ).subscribe(data => {
       this.data = data;

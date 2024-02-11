@@ -1,8 +1,8 @@
 import { NgClass } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserApiService } from '../../services/user-api.service';
 import { CarthandlerService } from '../../services/carthandler.service';
+import { ApiServiceService, ApiType } from '../../../../core/services/api-service.service';
 
 @Component({
   selector: 'app-navbar',
@@ -18,11 +18,11 @@ export class NavbarComponent {
   idempresa : number = 0
   idsucursal : number=0
   data : any[] = []
-  dataservice = inject(UserApiService)
+  dataservice = inject(ApiServiceService)
   carService = inject(CarthandlerService);
   ngOnInit(): void {
     this.subscribeToRouteChanges();
-      this.dataservice.getData('categorias',{"idempresa":this.idempresa}).subscribe(data=>{
+      this.dataservice.getData(ApiType.Public,'categorias',{"idempresa":this.idempresa}).subscribe(data=>{
       this.data= data
       })
   }
@@ -37,9 +37,6 @@ export class NavbarComponent {
       });
     });
   }
-
-
-
   get cartQuantity(): number {
     return this.carService.getCartQuantity();
   }

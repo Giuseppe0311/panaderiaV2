@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AdminempresaApiService } from '../../../features/admin/services/adminempresa-api.service';
+import { ApiServiceService, ApiType } from '../../../core/services/api-service.service';
 
 @Component({
   selector: 'app-misproductos',
@@ -17,7 +17,7 @@ router= inject(ActivatedRoute);
 idempresa: number | null = null;
 idsucursal: number | null = null;
 /* VARIABLES DE SERVICIOS */
-apiserviceadmin = inject(AdminempresaApiService);
+apiserviceadmin = inject(ApiServiceService);
 
 /* VARIABLES DE FORMULARIO */
 formulario: FormGroup;
@@ -82,7 +82,7 @@ ngOnInit(): void {
 }
 /* FUNCIONES DE CARGA DE DATOS */
 loadData() {
-  this.apiserviceadmin.getData('productos',{idsucursal:this.idsucursal}).subscribe({
+  this.apiserviceadmin.getData(ApiType.Public,'productos',{idsucursal:this.idsucursal}).subscribe({
     next: (data) => {
       this.data = data;
       console.log(this.data);
@@ -93,7 +93,7 @@ loadData() {
   });
 }
 loadProductosfromEmpresa(){
-  this.apiserviceadmin.getData('productos',{idempresa:this.idempresa}).subscribe({
+  this.apiserviceadmin.getData(ApiType.Public,'productos',{idempresa:this.idempresa}).subscribe({
     next: (data) => {
       this.productosdata = data;
       console.log(this.productosdata);
@@ -116,7 +116,7 @@ showModaleditar(id: number) {
   this.loadProductosfromEmpresa();
   this.showEditModal = true;
   this.apiserviceadmin
-    .getData('productos', { idProductoSucursal: id })
+    .getData(ApiType.Public,'productos', { idProductoSucursal: id })
     .subscribe((data) => {
       this.editdata = data;
       console.log(this.editdata);
@@ -165,7 +165,7 @@ registrar() {
     precioLocal: this.formulario.value.preciolocal,
     stock: this.formulario.value.stock,
    };
-   this.apiserviceadmin.postData('productosucursal', data).subscribe(
+   this.apiserviceadmin.postData(ApiType.AdminSucursal,'productosucursal', data).subscribe(
      (res: any) => {
        console.log(res);
          this.isLoading = false;
@@ -198,7 +198,7 @@ actualizar(){
       stock: this.updateform.value.stock,
       id: this.updateform.value.id,
      };
-     this.apiserviceadmin.updateData('productosucursal', this.updateform.value.id, data).subscribe(
+     this.apiserviceadmin.updateData(ApiType.AdminSucursal,'productosucursal', this.updateform.value.id, data).subscribe(
        (res: any) => {
          console.log(res);
            this.loadData();
@@ -221,7 +221,7 @@ actualizar(){
 eliminar() {
   if (this.idAEliminar!==null) {
    this.isLoading = true;
-    this.apiserviceadmin.deleteData('productosucursal', this.idAEliminar).subscribe(
+    this.apiserviceadmin.deleteData(ApiType.AdminSucursal,'productosucursal', this.idAEliminar).subscribe(
       (res: any) => {
         console.log(res);
         this.loadData();

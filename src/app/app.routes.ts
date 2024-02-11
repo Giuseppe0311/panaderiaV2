@@ -1,4 +1,4 @@
-    import { Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/user/home/home.component';
 import { SucursalSelecctionComponent } from './pages/user/sucursal-selecction/sucursal-selecction.component';
 import { LayoutComponent } from './pages/user/layout/layout.component';
@@ -16,11 +16,22 @@ import { CategoriasComponent } from './pages/admin/categorias/categorias.compone
 import { SucursalAdminlayoutComponent } from './pages/sucursalAdmin/sucursal-adminlayout/sucursal-adminlayout.component';
 import { MisproductosComponent } from './pages/sucursalAdmin/misproductos/misproductos.component';
 import { SucursalesComponent } from './pages/admin/sucursales/sucursales.component';
+import { UnidadesMedidaComponent } from './pages/admin/unidades-medida/unidades-medida.component';
+import { LoginComponent } from './auth/login/login.component';
+import { RoleGuardService } from './core/guards/role-guard.service';
+import { MisventasComponent } from './pages/sucursalAdmin/misventas/misventas.component';
+import { VentasanuladasComponent } from './pages/sucursalAdmin/ventasanuladas/ventasanuladas.component';
+import { VentasconcretadasComponent } from './pages/sucursalAdmin/ventasconcretadas/ventasconcretadas.component';
+import { GenerarpdfComponent } from './pages/sucursalAdmin/generarpdf/generarpdf.component';
+import { ProveedoresComponent } from './pages/sucursalAdmin/proveedores/proveedores.component';
+import { ComprasComponent } from './pages/sucursalAdmin/compras/compras.component';
+import { MiscomprasComponent } from './pages/sucursalAdmin/miscompras/miscompras.component';
+import { PagosComponent } from './pages/sucursalAdmin/pagos/pagos.component';
 export const routes: Routes = [
     //RUTAS DE USUARIO
     {path:'',component:HomeComponent},
     {path:'empresa/:idempresa',component:SucursalSelecctionComponent},
-
+    {path:'login',component:LoginComponent},
     {
         path:'empresa/:idempresa/sucursal/:idsucursal',
         component:LayoutComponent,
@@ -28,8 +39,10 @@ export const routes: Routes = [
             {path:'',component:ProductsPageComponent},
             {path:'producto/:idproducto',component:ProducDetailComponent},
             {path:'categoria/:idcategoria',component:CategorypageComponent},
-            {path:'cart',component:CartpageComponent},
-
+            {path:'cart',component:CartpageComponent,
+            canActivate: [RoleGuardService],
+            data: { expectedRoles: ['USER'], }
+            }
         ]
     },
    // RUTA PARA EL SUPERAADMIN
@@ -37,6 +50,8 @@ export const routes: Routes = [
         path: 'admin',
         component: SuperadminlayoutComponent, // Un componente layout para admin
         // canActivate: [AdminAuthGuard], // Guard para verificar si el usuario es administrador
+        canActivate: [RoleGuardService],
+        data: { expectedRoles: ['USER'] },
         children: [
             { path: 'empresas', component: EmpresapageComponent }, // Para super administrador
         //     { path: 'empresa/:idempresa', component: AdminEmpresaDetailComponent, // Detalle de empresa para administrador de empresa
@@ -56,16 +71,27 @@ export const routes: Routes = [
         children: [
             { path: 'productos', component: ProductosComponent }, // Para administrador de empresa
             {path:'categorias',component:CategoriasComponent},
-            {path:'sucursales',component:SucursalesComponent}
+            {path:'sucursales',component:SucursalesComponent},
+            {path:'unidadesmedida',component:UnidadesMedidaComponent}
         ]
     },
     {
         path:'empresa/:idempresa/sucursal/:idsucursal/admin',
         component:SucursalAdminlayoutComponent,
+         canActivate: [RoleGuardService],
+        data: { expectedRoles: ['ADMINSUCURSAL'] },
         children:[
             {path:'misproductos',component:MisproductosComponent},
+            {path:'misventas',component:MisventasComponent},
+            {path:'ventasanuladas',component:VentasanuladasComponent},
+            {path:'ventasconcretadas',component:VentasconcretadasComponent},
+            {path:'generar-pdf',component:GenerarpdfComponent},
+            {path:'proveedores',component:ProveedoresComponent},
+            {path:'compras',component:ComprasComponent},
+            {path:'miscompras',component:MiscomprasComponent},
+            {path:'pagos',component:PagosComponent}
         ]
-    }
+    },
     // // Ruta de redirección para cualquier ruta no encontrada
     // { path: '**', redirectTo: '' }
 ];

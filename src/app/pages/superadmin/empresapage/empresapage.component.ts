@@ -1,11 +1,11 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { SuperadminApiService } from '../../../features/superadmin/services/superadmin-api.service';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { ApiServiceService, ApiType } from '../../../core/services/api-service.service';
 
 @Component({
   selector: 'app-empresapage',
@@ -25,7 +25,7 @@ export class EmpresapageComponent implements OnInit {
   editdata: any = [];
   formulario: FormGroup;
   updateform: FormGroup;
-  apiserviceadmin = inject(SuperadminApiService);
+  apiserviceadmin = inject(ApiServiceService);
   selectedFile: File | null = null;
   //
   showsuccess = false;
@@ -78,7 +78,7 @@ export class EmpresapageComponent implements OnInit {
   //load data :
 
   loadData() {
-    this.apiserviceadmin.getData('empresas').subscribe({
+    this.apiserviceadmin.getData(ApiType.Public,'empresas').subscribe({
       next: (data) => {
         this.data = data;
       },
@@ -90,7 +90,7 @@ export class EmpresapageComponent implements OnInit {
   showModaleditar(id: number) {
     this.showEditModal = true;
     this.apiserviceadmin
-      .getData('empresas', { idempresa: id })
+      .getData(ApiType.Public,'empresas', { idempresa: id })
       .subscribe((data) => {
         this.editdata = data;
         this.updateform.patchValue({
@@ -145,7 +145,7 @@ export class EmpresapageComponent implements OnInit {
         // Asume que almacenaste el archivo en this.selectedFile
         formData.append('logo', this.selectedFile, this.selectedFile.name);
       }
-      this.apiserviceadmin.postDataformdata('empresas', formData).subscribe(
+      this.apiserviceadmin.postDataformdata(ApiType.Superadmin,'empresas', formData).subscribe(
         (res: any) => {
           console.log(res);
           this.isLoading = false;
@@ -180,7 +180,7 @@ export class EmpresapageComponent implements OnInit {
         formData1.append('logo', this.selectedFile, this.selectedFile.name);
       }
       this.apiserviceadmin
-        .updateDataFormdata(
+        .updateDataFormdata(ApiType.Superadmin,
           'empresas',
           this.updateform.get('id')?.value,
           formData1
@@ -208,7 +208,7 @@ export class EmpresapageComponent implements OnInit {
   }
   eliminarEmpresa(){
     if (this.idAEliminar!==null) {
-      this.apiserviceadmin.deleteData('empresas', this.idAEliminar).subscribe(
+      this.apiserviceadmin.deleteData(ApiType.Superadmin,'empresas', this.idAEliminar).subscribe(
         (res: any) => {
           console.log(res);
           this.loadData();

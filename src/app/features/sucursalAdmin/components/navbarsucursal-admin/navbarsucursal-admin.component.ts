@@ -14,4 +14,25 @@ export class NavbarsucursalAdminComponent {
   tomisproductos(){
     this.router.navigate(['misproductos'], {relativeTo: this.route});
   }
+  tomisventas(){
+    this.router.navigate(['misventas'], {relativeTo: this.route});
+  }
+  toventasanuladas(){
+    this.router.navigate(['ventasanuladas'], {relativeTo: this.route});
+  }
+  toventasconcretadas(){
+    this.router.navigate(['ventasconcretadas'], {relativeTo: this.route});
+  }
+  toproveedores(){
+    this.router.navigate(['proveedores'], {relativeTo: this.route});
+  }
+  tocompras(){
+    this.router.navigate(['compras'], {relativeTo: this.route});
+  }
+  tomiscompras(){
+    this.router.navigate(['miscompras'], {relativeTo: this.route});
+  }
+  tomispagos(){
+    this.router.navigate(['pagos'], {relativeTo: this.route});
+  }
 }

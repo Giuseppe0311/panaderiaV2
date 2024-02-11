@@ -1,8 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { UserApiService } from '../../../features/user/services/user-api.service';
 import { CarthandlerService } from '../../../features/user/services/carthandler.service';
 import { NgClass } from '@angular/common';
+import { ApiServiceService, ApiType } from '../../../core/services/api-service.service';
 
 @Component({
   selector: 'app-produc-detail',
@@ -13,7 +13,7 @@ import { NgClass } from '@angular/common';
 })
 export class ProducDetailComponent  implements OnInit {
   private route = inject(ActivatedRoute)
-  private dataservice= inject(UserApiService)
+  private dataservice= inject(ApiServiceService)
   cartService= inject(CarthandlerService)
   data : any = {}
   productadded : boolean = false
@@ -32,7 +32,7 @@ export class ProducDetailComponent  implements OnInit {
     this.route.paramMap.subscribe(params => {
       this.idproducto = Number(params.get('idproducto'));
     });
-        this.dataservice.getData('productos',{"idsucursal":this.idsucursal,"idproducto":this.idproducto}).subscribe(
+        this.dataservice.getData(ApiType.Public,'productos',{"idsucursal":this.idsucursal,"idproducto":this.idproducto}).subscribe(
           data => {
             this.data=data
           }

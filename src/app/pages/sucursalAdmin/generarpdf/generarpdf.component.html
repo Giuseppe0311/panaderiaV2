@@ -1,0 +1,64 @@
+<div id="boletapago">
+    <div
+    >
+      <h2 style="text-align: center">COMPROBANTE DE VENTA</h2>
+      <div style="margin-bottom: 20px">
+        <p><strong>Fecha:</strong> {{ fecha }}</p>
+        <p>
+          <strong>Comprobante:</strong> {{ num_comprobante }} ({{
+            tipo_comprobante
+          }})
+        </p>
+        <p><strong>Tipo de Pago:</strong> {{ tipo_pago }}</p>
+        <p><strong>Usuario:</strong> {{ usuario }}</p>
+        <p><strong>Sucursal:</strong> {{ nombre_sucursal }}</p>
+      </div>
+  
+      <h3>Detalle de Compra</h3>
+      <table
+        style="width: 100%; border-collapse: collapse; border: 1px solid black"
+      >
+        <thead>
+          <tr>
+            <th style="border: 1px solid black; padding: 8px">Producto</th>
+            <th style="border: 1px solid black; padding: 8px">Cantidad</th>
+            <th style="border: 1px solid black; padding: 8px">Precio Venta</th>
+            <th style="border: 1px solid black; padding: 8px">Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of datoProductospdf; track $index) {
+          <tr>
+            <td style="border: 1px solid black; padding: 8px">
+              {{ item.nombreProducto }}
+            </td>
+            <td style="border: 1px solid black; padding: 8px">
+              {{ item.cantidad }}
+            </td>
+            <td style="border: 1px solid black; padding: 8px">
+              {{ item.precioVenta }}
+            </td>
+            <td style="border: 1px solid black; padding: 8px">
+              {{ item.subtotal }}
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+  
+      <div style="margin-top: 20px; text-align: right">
+        <p><strong>Total:</strong> {{ total }}</p>
+      </div>
+    </div>
+    <!-- BOTON BONIDO DE GENERAR PDF -->
+    <div style="text-align: center; margin-top: 20px">
+      <button
+      style="border-color: greenyellow; background-color: greenyellow; color: black;"
+        mat-raised-button
+        color="primary"
+        (click)="generarPDF()"
+      >
+        Generar PDF
+      </button>
+  </div>
+

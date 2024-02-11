@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductsComponent } from '../../../features/user/components/products/products.component';
-import { UserApiService } from '../../../features/user/services/user-api.service';
+import { ApiServiceService, ApiType } from '../../../core/services/api-service.service';
 
 @Component({
   selector: 'app-products-page',
@@ -12,7 +12,7 @@ import { UserApiService } from '../../../features/user/services/user-api.service
 })
 export class ProductsPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
-  private dataservice = inject(UserApiService);
+  private dataservice = inject(ApiServiceService);
   products: any[] = [];
   globalcolor = 'green';
   tittle = 'pollo';
@@ -24,7 +24,7 @@ export class ProductsPageComponent implements OnInit {
       this.empresaid = params['idempresa'];
       this.sucursalid = params['idsucursal'];
       this.dataservice
-        .getData('productos',{"idsucursal":this.sucursalid})
+        .getData(ApiType.Public,'productos',{"idsucursal":this.sucursalid})
         .subscribe((data) => {
           this.products = data;
         });
