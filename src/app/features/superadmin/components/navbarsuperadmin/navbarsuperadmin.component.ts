@@ -15,5 +15,8 @@ export class NavbarsuperadminComponent {
   toempresas(){
     this.router.navigate(['empresas'], {relativeTo: this.route});
   }
+  tousuarios(){
+    this.router.navigate(['usuarios'], {relativeTo: this.route});
+  }
 
 }

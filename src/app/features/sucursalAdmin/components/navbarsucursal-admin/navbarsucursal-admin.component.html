@@ -1,59 +1,59 @@
 <!-- start: Sidebar -->
 <div class="fixed left-0 top-0 w-64 h-full bg-gray-900 p-4 z-50 sidebar-menu transition-transform">
-    <a href="#" class="flex items-center pb-4 border-b border-b-gray-800">
+    <a  href="#" class="flex items-center pb-4 border-b border-b-gray-800">
         <img src="https://placehold.co/32x32" alt="" class="w-8 h-8 rounded object-cover">
         <span class="text-lg font-bold text-white ml-3">Logo</span>
     </a>
     <ul class="mt-4">
-        <li class="mb-1 group active">
-            <a  class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+        <li class="mb-1 group" (click)="setActivo('dashboard')" [ngClass]="{'active': activo === 'dashboard'}">
+            <a (click)="todashboard()" class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                 <i class="ri-home-2-line mr-3 text-lg"></i>
                 <span class="text-sm">Dashboard</span>
             </a>
         </li>
-        <li class="mb-1 group">
+        <li class="mb-1 group" (click)="setActivo('misproductos')" [ngClass]="{'active': activo === 'misproductos'}">
             <a (click)="tomisproductos()" class=" cursor-pointer flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                 <i class="ri-settings-2-line mr-3 text-lg"></i>
                 <span class="text-sm">Mis Productos</span>
             </a>
         </li>
-        <li class="mb-1 group">
+        <li class="mb-1 group" (click)="setActivo('misventas')" [ngClass]="{'active': activo === 'misventas'}">
             <a (click)="tomisventas()" class=" cursor-pointer flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                 <i class="ri-settings-2-line mr-3 text-lg"></i>
                 <span class="text-sm">Mis Ventas Reservadas</span>
             </a>
         </li>
-        <li class="mb-1 group">
+        <li class="mb-1 group" (click)="setActivo('ventasconcretadas')" [ngClass]="{'active': activo === 'ventasconcretadas'}">
             <a (click)="toventasconcretadas()" class=" cursor-pointer flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                 <i class="ri-settings-2-line mr-3 text-lg"></i>
                 <span class="text-sm">Ventas Realizadas</span>
             </a>
         </li>
-        <li class="mb-1 group">
+        <li class="mb-1 group" (click)="setActivo('ventasanuladas')" [ngClass]="{'active': activo === 'ventasanuladas'}">
             <a (click)="toventasanuladas()" class=" cursor-pointer flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                 <i class="ri-settings-2-line mr-3 text-lg"></i>
                 <span class="text-sm">Ventas Anuladas</span>
             </a>
         </li>
-        <li class="mb-1 group">
+        <li class="mb-1 group" (click)="setActivo('proveedores')" [ngClass]="{'active': activo === 'proveedores'}">
             <a (click)="toproveedores()" class=" cursor-pointer flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                 <i class="ri-settings-2-line mr-3 text-lg"></i>
                 <span class="text-sm">Proveedores</span>
             </a>
         </li>
-        <li class="mb-1 group">
+        <li class="mb-1 group" (click)="setActivo('compras')" [ngClass]="{'active': activo === 'compras'}">
             <a (click)="tocompras()" class=" cursor-pointer flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                 <i class="ri-settings-2-line mr-3 text-lg"></i>
                 <span class="text-sm">Compras</span>
             </a>
         </li>
-        <li class="mb-1 group">
+        <li class="mb-1 group" (click)="setActivo('miscompras')" [ngClass]="{'active': activo === 'miscompras'}">
             <a (click)="tomiscompras()" class=" cursor-pointer flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                 <i class="ri-settings-2-line mr-3 text-lg"></i>
                 <span class="text-sm">Mis Compras</span>
             </a>
         </li>
-        <li class="mb-1 group">
+        <li class="mb-1 group" (click)="setActivo('pagos')" [ngClass]="{'active': activo === 'pagos'}">
             <a (click)="tomispagos()" class=" cursor-pointer flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                 <i class="ri-settings-2-line mr-3 text-lg"></i>
                 <span class="text-sm">Pagos </span>

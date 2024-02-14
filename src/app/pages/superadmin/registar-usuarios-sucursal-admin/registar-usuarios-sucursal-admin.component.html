@@ -1,10 +1,10 @@
 <div class="overflow-x-auto relative p-44">
     <div class="pb-5">
       <button
-        (click)="showmodalregistrar()"
+        (click)="showmodal()"
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
       >
-        Registrar Sucursales para mi empresa
+        Registrar Usuario
       </button>
     </div>
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -12,10 +12,12 @@
         class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
       >
         <tr>
-          <th scope="col" class="py-3 px-6">Nombre</th>
-          <th scope="col" class="py-3 px-6">Direccion</th>
+          <th scope="col" class="py-3 px-6">Nombre del Usuario</th>
+          <th scope="col" class="py-3 px-6">Usuario Registrado</th>
+          <th scope="col" class="py-3 px-6">Correo</th>
           <th scope="col" class="py-3 px-6">Telefono</th>
-          <th scope="col" class="py-3 px-6">Información</th>
+          <th scope="col" class="py-3 px-6">Perfil</th>
+          <th scope="col" class="py-3 px-6">Empresa Asignada</th>
           <th scope="col" class="py-3 px-6">Acciones</th>
         </tr>
       </thead>
@@ -29,13 +31,19 @@
             {{ item.nombre }}
           </th>
           <td class="py-4 px-6">
-            {{ item.direccion }}
+            {{ item.usuario }}
+          </td>
+          <td class="py-4 px-6">
+            {{ item.correo }}
           </td>
           <td class="py-4 px-6">
             {{ item.telefono }}
           </td>
           <td class="py-4 px-6">
-            {{ item.informacion }}
+            {{ item.nombrePerfil }}
+          </td>
+          <td class="py-4 px-6">
+            {{ item.nombreEmpresaAsociada }}
           </td>
           <td class="py-4 px-6 text-right flex justify-end items-center gap-2">
             <!-- Botón Editar -->
@@ -66,7 +74,7 @@
             <button
               class="text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-800"
               type="button"
-              (click)="showModalEliminar(item.id)"
+              (click)="eliminar(item.id)"
             >
               <svg
                 class="w-4 h-4 mr-2 -ml-1"
@@ -91,7 +99,7 @@
     <!-- MODAL HERE -->
   
     <!-- MODAL DE REGISTRO -->
-    @if (showregistermodal) {
+    @if (shomodal) {
     <div class="fixed z-10 inset-0 flex items-center justify-center">
       <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
       <div
@@ -100,7 +108,7 @@
         <!-- Modal panel -->
         <div class="px-6 py-4">
           <h3 class="text-lg leading-6 font-medium text-gray-900">
-            Registrar Producto Para mi Sucursal
+            Registrar Usuario
           </h3>
         </div>
         <!-- AQUI LA LOGICA DEL FORMULARIO -->
@@ -114,52 +122,96 @@
             box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
           "
         >
-          <form [formGroup]="formulario" (submit)="registrar()">
-            <!--  -->
+          <form [formGroup]="formulario" (submit)="enviar()">
             <div class="mb-4">
               <label
                 class="block text-gray-700 text-sm font-bold mb-2"
-                for="nombre"
+                for="usuario"
               >
-                Nombre de Sucursal
+                Usuario
               </label>
               <input
-                formControlName="nombre"
+                formControlName="usuario"
                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="nombre"
+                id="usuario"
                 type="text"
-                placeholder="Nombre de Sucursal"
+                placeholder="Usuario"
               />
-              @if (hasErrors(formulario,'nombre', 'required')) {
-              <span style="color: red">Nombre de sucursal requerido</span>
+              @if (hasErrors(formulario,'usuario', 'required')) {
+              <span style="color: red">Usuario requerido</span>
               }
             </div>
-
+            <div class="mb-4">
+              <label class="block text-gray-700 text-sm font-bold mb-2" for="contrasena">
+                Contraseña
+              </label>
+              <div class="relative">
+                <input [type]="tipoInput" formControlName="contrasena"
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                       id="contrasena" placeholder="Contraseña">
+                <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+                        (click)="togglePasswordVisibility()">
+                  <!-- Cambia este texto por un ícono si lo prefieres -->
+                  {{tipoInput === 'password' ? 'Mostrar' : 'Ocultar'}}
+                </button>
+              </div>
+              @if (hasErrors(formulario,'contrasena', 'required')) {
+                <span style="color: red">Contraseña requerida</span>
+                }
+            </div>
             <div class="mb-4">
               <label
                 class="block text-gray-700 text-sm font-bold mb-2"
-                for="direccion"
+                for="dni"
               >
-                Dirección
+                DNI
               </label>
               <input
-                formControlName="direccion"
+                formControlName="dni"
                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="direccion"
+                id="dni"
                 type="text"
-                placeholder="Direccion"
+                placeholder="DNI"
               />
-              @if (hasErrors(formulario,'direccion', 'required')) {
-              <span style="color: red">Direccion requerido</span>
+              @if (hasErrors(formulario,'dni', 'required')) {
+              <span style="color: red">Dni requerido</span>
+              }
+              @if (hasErrors(formulario,'dni', 'pattern')) {
+                <span style="color: red">-Dni invalido</span>
+              }
+              @if (
+                hasErrors(formulario,'dni', 'maxlength') ||
+                hasErrors(formulario,'dni', 'minlength')
+              ) {
+                <span style="color: red">-Dni debe tener 8 digitos</span>
               }
             </div>
-
+            <div class="mb-4">
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="correo"
+              >
+              Correo
+              </label>
+              <input
+                formControlName="correo"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="correo"
+                type="email"
+                placeholder="Correo"
+              />
+              @if (hasErrors(formulario,'correo', 'required')) {
+              <span style="color: red">Correo requerido</span>
+              } @if (hasErrors(formulario,'correo', 'email')) {
+              <span style="color: red">email invalido</span>
+              }
+            </div>
             <div class="mb-4">
                 <label
                   class="block text-gray-700 text-sm font-bold mb-2"
                   for="telefono"
                 >
-                  Telefono
+                telefono
                 </label>
                 <input
                   formControlName="telefono"
@@ -169,33 +221,58 @@
                   placeholder="Telefono"
                 />
                 @if (hasErrors(formulario,'telefono', 'required')) {
-                <span style="color: red">Telefono Requerido</span>
+                <span style="color: red">-Telefono requerido</span>
+                } @if (hasErrors(formulario,'telefono', 'pattern')) {
+                <span style="color: red">-Telefono invalido</span>
+                } @if (hasErrors(formulario,'telefono', 'maxlength')) {
+                <span style="color: red">-Telefono debe tener maximo 9 digitos</span>
+                } @if (hasErrors(formulario,'telefono', 'minlength')) {
+                <span style="color: red"
+                  >-Telefono debe tener como minimo 9 dijitos</span
+                >
                 }
-                @if (
-                hasErrors(formulario,'telefono', 'pattern')
-                ) {
-                <span style="color: red">Telefono debe ser un número no mayor a 9 digitos</span>
-                }
-            </div> 
+              </div>
 
-            <div class="mb-4">
+              <div class="mb-4">
                 <label
                   class="block text-gray-700 text-sm font-bold mb-2"
-                  for="informacion"
+                  for="nombreusuario"
                 >
-                  Información
+                Nombre del Usuario
                 </label>
                 <input
-                  formControlName="informacion"
+                  formControlName="nombreusuario"
                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="informacion"
+                  id="nombreusuario"
                   type="text"
-                  placeholder="Información"
+                  placeholder="Nombre del Usuario"
                 />
-                @if (hasErrors(formulario,'informacion', 'required')) {
-                <span style="color: red">Información requerida</span>
+                @if (hasErrors(formulario,'nombreusuario', 'required')) {
+                <span style="color: red">Nombre del usuario requerido</span>
                 }
-            </div>
+              </div>
+
+              <div class="mb-4">
+                <label
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  for="empresaasignada"
+                >
+                Empresa Asignada
+                </label>
+                <select
+                  formControlName="empresaasignada"
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="empresaasignada"
+                >
+                @for (item of empresas; track item.id) {
+                    <option [value]="item.id">{{ item.nombre }}</option>
+                }
+                @if (hasErrors(formulario,'empresaasignada','required')) {
+                <span style="color: red">Empresa requerida</span>
+                }
+                </select>
+              </div>
+
 
             <div class="flex items-center justify-between">
               <button
@@ -241,7 +318,7 @@
               >
                 <strong class="font-bold">Registro Exitoso!</strong>
                 <span class="block sm:inline"
-                  >La sucursal se ha registrado correctamente</span
+                  >El usuario se ha registrado correctamente</span
                 >
               </div>
             </div>
@@ -253,7 +330,7 @@
               >
                 <strong class="font-bold">Error!</strong>
                 <span class="block sm:inline"
-                  >Ha ocurrido un error al registrar la sucursal -> <strong>{{mensaje}}</strong> 
+                  >Ha ocurrido un error al registrar el usuario -> <strong>{{mensaje}}</strong>
                 </span>
               </div>
             </div>
@@ -264,7 +341,7 @@
           class="bg-gray-50 px-4 py-3 sm:px-6 flex items-center justify-end p-4 gap-4 flex-row"
         >
           <button
-            (click)="showmodalregistrar()"
+            (click)="showmodal()"
             type="button"
             class="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-black text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 sm:w-auto sm:text-sm"
           >
@@ -278,7 +355,7 @@
   
     <!--                        -->
   
-    <!--MODAL DE ACTUALIZACION -->
+    <!-- INICIO DEL MODAL DE ACTUALIZACION -->
     @if (showEditModal) {
     <div class="fixed z-10 inset-0 flex items-center justify-center">
       <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
@@ -288,7 +365,7 @@
         <!-- Modal panel -->
         <div class="px-6 py-4">
           <h3 class="text-lg leading-6 font-medium text-gray-900">
-            Editar datos de la Sucursal
+            Editar datos de la empresa
           </h3>
         </div>
         <!-- AQUI LA LOGICA DEL FORMULARIO -->
@@ -302,97 +379,157 @@
             box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
           "
         >
-          <form [formGroup]="updateform" (submit)="actualizar()">
-            <input
-              formControlName="id"
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="id"
-              type="hidden"
-              placeholder="id"
-            />
-            <!--  -->
+        <form [formGroup]="updateform" (submit)="actualizar()">
+            <!-- id hidden -->
+            <input type="hidden" formControlName="id" />
+            <div class="mb-4">
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="usuario"
+              >
+                Usuario
+              </label>
+              <input
+                formControlName="usuario"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="usuario"
+                type="text"
+                placeholder="Usuario"
+              />
+              @if (hasErrors(updateform,'usuario', 'required')) {
+              <span style="color: red">Usuario requerido</span>
+              }
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 text-sm font-bold mb-2" for="contrasena">
+                Contraseña
+              </label>
+              <div class="relative">
+                <input [type]="tipoInput" formControlName="contrasena"
+                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                       id="contrasena" placeholder="Contraseña">
+                <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+                        (click)="togglePasswordVisibility()">
+                  <!-- Cambia este texto por un ícono si lo prefieres -->
+                  {{tipoInput === 'password' ? 'Mostrar' : 'Ocultar'}}
+                </button>
+              </div>
+            </div>
+            <div class="mb-4">
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="dni"
+              >
+                DNI
+              </label>
+              <input
+                formControlName="dni"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="dni"
+                type="text"
+                placeholder="DNI"
+              />
+              @if (hasErrors(updateform,'dni', 'required')) {
+              <span style="color: red">Dni requerido</span>
+              }
+              @if (hasErrors(updateform,'dni', 'pattern')) {
+                <span style="color: red">-Dni invalido</span>
+              }
+              @if (
+                hasErrors(updateform,'dni', 'maxlength') ||
+                hasErrors(updateform,'dni', 'minlength')
+              ) {
+                <span style="color: red">-Dni debe tener 8 digitos</span>
+              }
+            </div>
+            <div class="mb-4">
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="correo"
+              >
+              Correo
+              </label>
+              <input
+                formControlName="correo"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="correo"
+                type="email"
+                placeholder="Correo"
+              />
+              @if (hasErrors(updateform,'correo', 'required')) {
+              <span style="color: red">Correo requerido</span>
+              } @if (hasErrors(updateform,'correo', 'email')) {
+              <span style="color: red">email invalido</span>
+              }
+            </div>
             <div class="mb-4">
                 <label
                   class="block text-gray-700 text-sm font-bold mb-2"
-                  for="nombre"
+                  for="telefono"
                 >
-                  Nombre de Sucursal
+                telefono
                 </label>
                 <input
-                  formControlName="nombre"
+                  formControlName="telefono"
                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="nombre"
+                  id="telefono"
                   type="text"
-                  placeholder="Nombre de Sucursal"
+                  placeholder="Telefono"
                 />
-                @if (hasErrors(updateform,'nombre', 'required')) {
-                <span style="color: red">Nombre de sucursal requerido</span>
+                @if (hasErrors(updateform,'telefono', 'required')) {
+                <span style="color: red">-Telefono requerido</span>
+                } @if (hasErrors(updateform,'telefono', 'pattern')) {
+                <span style="color: red">-Telefono invalido</span>
+                } @if (hasErrors(updateform,'telefono', 'maxlength')) {
+                <span style="color: red">-Telefono debe tener maximo 9 digitos</span>
+                } @if (hasErrors(updateform,'telefono', 'minlength')) {
+                <span style="color: red"
+                  >-Telefono debe tener como minimo 9 dijitos</span
+                >
                 }
               </div>
-  
+
               <div class="mb-4">
                 <label
                   class="block text-gray-700 text-sm font-bold mb-2"
-                  for="direccion"
+                  for="nombreusuario"
                 >
-                  Dirección
+                Nombre del Usuario
                 </label>
                 <input
-                  formControlName="direccion"
+                  formControlName="nombreusuario"
                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="direccion"
+                  id="nombreusuario"
                   type="text"
-                  placeholder="Direccion"
+                  placeholder="Nombre del Usuario"
                 />
-                @if (hasErrors(updateform,'direccion', 'required')) {
-                <span style="color: red">Direccion requerido</span>
+                @if (hasErrors(updateform,'nombreusuario', 'required')) {
+                <span style="color: red">Nombre del usuario requerido</span>
                 }
               </div>
-  
+
               <div class="mb-4">
-                  <label
-                    class="block text-gray-700 text-sm font-bold mb-2"
-                    for="telefono"
-                  >
-                    Telefono
-                  </label>
-                  <input
-                    formControlName="telefono"
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="telefono"
-                    type="text"
-                    placeholder="Telefono"
-                  />
-                  @if (hasErrors(updateform,'telefono', 'required')) {
-                  <span style="color: red">Telefono Requerido</span>
-                  }
-                  @if (
-                  hasErrors(updateform,'telefono', 'pattern')
-                  ) {
-                  <span style="color: red">Telefono debe ser un número no mayor a 9 digitos</span>
-                  }
-              </div> 
-  
-              <div class="mb-4">
-                  <label
-                    class="block text-gray-700 text-sm font-bold mb-2"
-                    for="informacion"
-                  >
-                    Información
-                  </label>
-                  <input
-                    formControlName="informacion"
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="informacion"
-                    type="text"
-                    placeholder="Información"
-                  />
-                  @if (hasErrors(updateform,'informacion', 'required')) {
-                  <span style="color: red">Información requerida</span>
-                  }
+                <label
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  for="empresaasignada"
+                >
+                Empresa Asignada
+                </label>
+                <select
+                  formControlName="empresaasignada"
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="empresaasignada"
+                >
+                @for (item of empresas; track item.id) {
+                    <option [value]="item.id">{{ item.nombre }}</option>
+                }
+                @if (hasErrors(updateform,'empresaasignada','required')) {
+                <span style="color: red">Empresa requerida</span>
+                }
+                </select>
               </div>
-  
-  
+
+
             <div class="flex items-center justify-between">
               <button
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full flex items-center"
@@ -400,7 +537,7 @@
                 [disabled]="isLoading"
               >
                 @if (!isLoading) {
-                <span>Actualizar</span>
+                <span>Registrar</span>
                 } @if (isLoading) {
                 <span class="mr-2">
                   <!-- Simple SVG Spinner Example -->
@@ -435,9 +572,9 @@
                 class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
                 role="alert"
               >
-                <strong class="font-bold">Actualización Exitosa!</strong>
+                <strong class="font-bold">Registro Exitoso!</strong>
                 <span class="block sm:inline"
-                  >La sucursal se actualizó correctamente</span
+                  >El usuario se ha registrado correctamente</span
                 >
               </div>
             </div>
@@ -449,7 +586,7 @@
               >
                 <strong class="font-bold">Error!</strong>
                 <span class="block sm:inline"
-                  >Ha ocurrido un error al actualizar la sucursal -> <strong>{{mensaje}}</strong>
+                  >Ha ocurrido un error al registrar el usuario -> <strong>{{mensaje}}</strong>
                 </span>
               </div>
             </div>
@@ -471,7 +608,7 @@
     </div>
   
     }
-    <!--MODAL DE ELIMINACION  -->
+    <!--  -->
     @if (showEliminarModal) {
     <div class="fixed z-10 inset-0 flex items-center justify-center">
       <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
@@ -481,7 +618,7 @@
         <!-- Modal panel -->
         <div class="px-6 py-4">
           <h3 class="text-lg leading-6 font-medium text-gray-900">
-            Eliminar Producto de mi sucursal
+            Eliminar Usuario
           </h3>
         </div>
         <!-- AQUI LA LOGICA DEL FORMULARIO -->
@@ -495,41 +632,14 @@
             box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
           "
         >
-          <p>¿Estas seguro de eliminar el producto de tu sucursal?</p>
+          <p>¿Estas seguro de eliminar el usuario?</p>
           <div class="flex items-center justify-between">
             <button
-              [disabled]="isLoading"
               class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full flex items-center"
               type="button"
-              (click)="eliminar()"
+              (click)="eliminarEmpresa()"
             >
-              @if (!isLoading) {
-              <span>Eliminar</span>
-              } @if (isLoading) {
-              <span class="mr-2">
-                <!-- Simple SVG Spinner Example -->
-                <svg
-                  class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    class="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    stroke-width="4"
-                  ></circle>
-                  <path
-                    class="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-              </span>
-              }
+              Eliminar
             </button>
             <button
               (click)="closemodalEliminar()"
@@ -544,4 +654,3 @@
     </div>
     }
   </div>
-  

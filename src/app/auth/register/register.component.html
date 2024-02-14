@@ -1,0 +1,117 @@
+<!-- component -->
+<div class="bg-gray-100 min-h-screen flex flex-col">
+    <div class="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
+      <form [formGroup]="registroForm" class="bg-white px-6 py-8 rounded shadow-md text-black w-full" (ngSubmit)="onSubmit()">
+        <h1 class="mb-8 text-3xl text-center">Sign up</h1>
+        
+        <input 
+          type="text"
+          formControlName="usuario"
+          class="block border border-gray-300 w-full p-3 rounded mb-4"
+          placeholder="usuario" />
+          @if (hasErrors(registroForm,'usuario','required')) {
+            <div class="text-red-500 mt-2 text-sm">
+              El usuario es requerido
+            </div>
+          }
+        <div class="relative mb-4">
+          <input 
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="contrasena"
+            class="block border border-gray-300 w-full p-3 rounded"
+            placeholder="constraseña" />
+            @if (hasErrors(registroForm,'contrasena','required')) {
+                <div class="text-red-500 mt-2 text-sm">
+                  La Contraseña es requerida
+                </div>
+              }
+          <div class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
+            <i (click)="toggleShowPassword()" class="fas fa-eye cursor-pointer" [ngClass]="{'fa-eye-slash': showPassword, 'fa-eye': !showPassword}">ver</i>
+          </div>
+        </div>
+        <input 
+        type="text"
+        formControlName="dni"
+        class="block border border-gray-300 w-full p-3 rounded mb-4"
+        placeholder="DNI" />
+        @if (hasErrors(registroForm,'dni','required')) {
+            <div class="text-red-500 mt-2 text-sm">
+              El DNI es requerido
+            </div>
+          }
+          @if (hasErrors(registroForm,'dni','minlength') || hasErrors(registroForm,'dni','maxlength')) {
+            <div class="text-red-500 mt-2 text-sm">
+                El DNI debe tener 8 digitos
+            </div>
+          }
+          @if (hasErrors(registroForm,'dni','pattern')) {
+            <div class="text-red-500 mt-2 text-sm">
+                DNI INVALIDO
+            </div>
+          }
+        <input 
+        type="email"
+        formControlName="correo"
+        class="block border border-gray-300 w-full p-3 rounded mb-4"
+        placeholder="Correo" />
+        @if (hasErrors(registroForm,'correo','email')) {
+            <div class="text-red-500 mt-2 text-sm">
+                Correo INVALIDO
+            </div>
+          }
+          @if (hasErrors(registroForm,'correo','required')) {
+            <div class="text-red-500 mt-2 text-sm">
+              El Correo es requerido
+            </div>
+          }
+        <input 
+        type="text"
+        formControlName="telefono"
+        class="block border border-gray-300 w-full p-3 rounded mb-4"
+        placeholder="Telefono" />
+        @if (hasErrors(registroForm,'telefono','required')) {
+            <div class="text-red-500 mt-2 text-sm">
+              El Telefono es requerido
+            </div>
+          }
+          @if (hasErrors(registroForm,'telefono','minlength') || hasErrors(registroForm,'dni','maxlength')) {
+            <div class="text-red-500 mt-2 text-sm">
+                El Telefono debe tener 9 digitos
+            </div>
+          }
+          @if (hasErrors(registroForm,'telefono','pattern')) {
+            <div class="text-red-500 mt-2 text-sm">
+                Telefono INVALIDO
+            </div>
+          }
+        <input 
+        type="text"
+        formControlName="nombre"
+        class="block border border-gray-300 w-full p-3 rounded mb-4"
+        placeholder="Nombre" />
+        <button
+        [disabled]="!registroForm.valid || registroForm.pristine || registroForm.pending"
+          type="submit"
+          class="w-full py-3 rounded bg-green-500 text-white hover:bg-green-600 focus:outline-none my-1"
+        >Create Account</button>
+      </form>
+      @if (showErrorMessage) {
+        <div class="text-red-500 mt-6">
+          {{ mensaje }}
+        </div>
+      }
+      @if (showSuccessMessage) {
+        <div class="text-green-500 mt-6">
+          <h1>{{ mensaje }}</h1>
+        </div>
+      }
+  
+      <div class="text-gray-600 mt-6">
+        Already have an account? 
+        <a class="no-underline border-b border-blue-500 text-blue-500" href="../login/">
+          Log in
+        </a>.
+      </div>
+    </div>
+  </div>
+  

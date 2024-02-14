@@ -6,81 +6,94 @@ import { AuthService } from '../../auth/services/auth.service';
   providedIn: 'root',
 })
 export class RoleGuardService implements CanActivate {
-  private authservice = inject(AuthService);
+  private authService = inject(AuthService);
   private router = inject(Router);
+
   canActivate(route: ActivatedRouteSnapshot): boolean {
     const requiredRoles = route.data['expectedRoles'];
-    const tokenExist = this.authservice.currentUserLoginOn.value;
-    const tokenPayload: any = this.authservice.decodeToken();
-
-    if (!tokenExist || !tokenPayload) {
-      this.redirectBasedOnRoute(route);
+    const tokenExists = this.authService.currentUserLoginOn.value;
+    const tokenPayload: any = this.authService.decodeToken();
+    console.log('tokenExists', tokenExists);
+    console.log('tokenPayload', tokenPayload);
+    console.log('requiredRoles', requiredRoles);
+    if (!tokenExists || !tokenPayload) {
+      this.redirectToLogin();
       return false;
     }
 
-    const hasRequiredRole = requiredRoles.some((role: any) =>
-      tokenPayload.roles.includes(role)
-    );
-    if (!hasRequiredRole) {
-      alert('No tienes permiso para acceder a esta página.');
+    const userRoles = Array.isArray(tokenPayload.roles) ? tokenPayload.roles : tokenPayload.roles.split(',');
+    if (!this.hasRequiredRole(userRoles, requiredRoles)) {
+      this.handleUnauthorizedAccess();
       return false;
     }
 
-    const routeIdEmpresa = route.params['idempresa'];
-    const routeIdSucursal = route.params['idsucursal'];
-    let accessGranted = true; // Asume por defecto que el acceso está permitido
-
-    // Verifica la coincidencia de idempresa si está presente tanto en el token como en la ruta
-    if (tokenPayload.idempresa && routeIdEmpresa) {
-      if (tokenPayload.idempresa.toString() !== routeIdEmpresa) {
-        alert('La empresa no coincide.');
-        accessGranted = false;
-      }
+    if (!this.validateRoleRequirements(userRoles, tokenPayload)) {
+      this.handleUnauthorizedAccess();
+      return false;
     }
 
-    // Verifica la coincidencia de idsucursal si está presente tanto en el token como en la ruta
-    if (tokenPayload.idsucursal && routeIdSucursal) {
-      if (tokenPayload.idsucursal.toString() !== routeIdSucursal) {
-        alert('La sucursal no coincide.');
-        accessGranted = false;
-      }
-    }
-
-    // Permite el acceso si no es necesario validar idempresa o idsucursal,
-    // o si las validaciones de estos campos son exitosas.
-    if (accessGranted) {
-      console.log('Acceso concedido.');
+    if (this.validateAccessByRoute(tokenPayload, route.params)) {
       return true;
     } else {
-      return false; // Acceso denegado si alguna de las validaciones falla
+      return false;
     }
   }
-  private redirectBasedOnRoute(route: ActivatedRouteSnapshot): void {
-    const returnUrl = route.pathFromRoot
-      .map((v) => v.url.map((segment) => segment.toString()).join('/'))
-      .join('/');
-    if (this.isBrowser()) {
-      localStorage.setItem('returnUrl', returnUrl); // Almacena el returnUrl en localStorage
-    }
-    const requiredRoles = route.data['expectedRoles'];
 
-    // Define la URL de login basada en los roles requeridos o redirige al login general
-    let loginUrl = '/login'; // Default a login general
-    if (requiredRoles) {
-      if (requiredRoles.includes('ADMIN')) {
-        loginUrl = '/login-admin';
-      } else if (requiredRoles.includes('SUPERADMIN')) {
-        loginUrl = '/login-superadmin';
-      } else if (requiredRoles.includes('USER')) {
-        loginUrl = '/login'; // Asumo que querías decir '/login-user' en lugar de '/login-caca'
-      } else if (requiredRoles.includes('SUCURSALADMIN')) {
-        loginUrl = '/login';
-      }
-    }
-
-    // Redirige al usuario a la página de login correspondiente con el returnUrl como parámetro
-    this.router.navigate([loginUrl], { queryParams: { returnUrl } });
+  private hasRequiredRole(userRoles: string[], requiredRoles: string[]): boolean {
+    return requiredRoles.some(role => userRoles.includes(role));
+ 
   }
+
+  private validateRoleRequirements(userRoles: string[], tokenPayload: any): boolean {
+    if (userRoles.includes('ADMIN') && tokenPayload.idempresa === undefined) {
+      alert('No tienes acceso a esta empresa porque no se especificó idEmpresa en el token.');
+      return false;
+    }
+
+    if (userRoles.includes('ADMINSUCURSAL') && (tokenPayload.idempresa === undefined || tokenPayload.idsucursal === undefined)) {
+      alert('No tienes acceso a esta sucursal porque no se especificaron idEmpresa o idSucursal en el token.');
+      return false;
+    }
+
+    return true;
+  }
+
+  private validateAccessByRoute(tokenPayload: any, routeParams: {[key: string]: string}): boolean {
+    const { idempresa, idsucursal } = routeParams;
+
+    if (tokenPayload.idempresa && idempresa && tokenPayload.idempresa.toString() !== idempresa) {
+      this.redirectToLogin();
+      alert('No tienes acceso a esta empresa.');
+      return false;
+    }
+
+    if (tokenPayload.idsucursal && idsucursal && tokenPayload.idsucursal.toString() !== idsucursal) {
+      this.redirectToLogin();
+      alert('La sucursal no coincide.');
+      return false;
+    }
+
+    return true;
+  }
+
+
+  private redirectToLogin(): void {
+    this.router.navigate(['/login']);
+  }
+
+  private handleUnauthorizedAccess(): void {
+    this.authService.logout();
+    if (!this.isLoginPage()) {
+      this.router.navigate(['/login']);
+    } else {
+      alert('Ya estás en la página de login.');
+    }
+  }
+
+  private isLoginPage(): boolean {
+    return this.router.url.includes('/login');
+  }
+
   private isBrowser(): boolean {
     return typeof window !== 'undefined';
   }

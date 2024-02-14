@@ -2,7 +2,9 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiServiceService, ApiType } from '../../../core/services/api-service.service';
-
+import * as XLSX from 'xlsx';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 @Component({
   selector: 'app-proveedores',
   standalone: true,
@@ -31,7 +33,8 @@ idAEliminar: number | null = null;
 /* VARIABLES DE DATOS */
 data: any = [];
 editdata: any = [];
-
+/* VARIABLES DE  MENSAJES*/
+mensaje: string = '';
 /* VARIABLES DE MENSAJES */
 showsuccess = false;
 showerror = false;
@@ -165,11 +168,18 @@ registrar() {
       (err: any) => {
         this.showerror = true;
         console.log(err);
+        if (err.error.message) {
+          this.mensaje = err.error.message;
+          
+        }else{
+          this.mensaje = 'Error en el servidor, intente mas tarde';
+        }
         this.isLoading = false;
       }
     );
   }else{
   this.showerror = true;
+  this.mensaje = 'Error en el formulario, verifique los campos';
   }
 }
 actualizar(){
@@ -198,11 +208,18 @@ actualizar(){
        (err: any) => {
          this.showerrorupdate = true;
          console.log(err);
+         if (err.error.message) {
+          this.mensaje = err.error.message;
+          
+        }else{
+          this.mensaje = 'Error en el servidor, intente mas tarde';
+        }
          this.isLoading = false;
        }
      );
   }else{
     this.showerrorupdate = true;
+    this.mensaje = 'Error en el formulario, verifique los campos';
   }
 }
 
@@ -226,5 +243,24 @@ eliminar() {
   }else{
     alert('No se puede eliminar el producto hubo un error al obtener el id del producto');
   }
+  
+}
+exportToExcel(): void {
+  const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.data);
+  const wb: XLSX.WorkBook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+  XLSX.writeFile(wb, 'ReportedeProveedores.xlsx');
+}
+
+exportToPDF(): void {
+  html2canvas(document.querySelector("#tablaProveedores") as HTMLElement).then(canvas => {
+    const contentDataURL = canvas.toDataURL('image/png');
+    let pdf = new jsPDF('l', 'cm', 'a4'); // Generates PDF in landscape mode
+    // A4 size page of PDF
+    const imgWidth = 29.7;
+    const imgHeight = canvas.height * imgWidth / canvas.width;
+    pdf.addImage(contentDataURL, 'PNG', 0, 0, imgWidth, imgHeight);
+    pdf.save('ReportedeProveedores.pdf');
+  });
 }
 }

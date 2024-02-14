@@ -20,6 +20,7 @@ export class EmpresapageComponent implements OnInit {
   //
   showEliminarModal = false;
   idAEliminar: number | null = null;
+  mensaje: string = '';
   //
   data: any = [];
   editdata: any = [];
@@ -129,10 +130,11 @@ export class EmpresapageComponent implements OnInit {
     this.shomodal = !this.shomodal;
     this.showsuccess = false;
     this.showerror = false;
+    this.formulario.reset();
   }
   enviar() {
     //send data
-    if (this.formulario.valid) {
+    if (this.formulario.valid && this.selectedFile !== null) {
       this.showsuccess = false;
       this.showerror = false;
       this.isLoading = true;
@@ -157,9 +159,20 @@ export class EmpresapageComponent implements OnInit {
         (err: any) => {
           this.showerror = true;
           console.log(err);
+          if (err.error.message) {
+            this.mensaje = err.error.message;
+            this.isLoading = false;
+            
+          }else{
+            this.mensaje = 'Error en el servidor, intente mas tarde';
+            this.isLoading = false;
+          }
           this.isLoading = false;
         }
       );
+    }else{
+      this.showerror = true;
+      this.mensaje = 'Error en el formulario, verifique los campos';
     }
   }
   //update data
@@ -196,9 +209,18 @@ export class EmpresapageComponent implements OnInit {
           (err: any) => {
             this.showerrorupdate = true;
             console.log(err);
+            if (err.error.message) {
+              this.mensaje = err.error.message;
+              
+            }else{
+              this.mensaje = 'Error en el servidor, intente mas tarde';
+            }
             this.isLoading = false;
           }
         );
+    }else{
+      this.showerrorupdate = true;
+      this.mensaje = 'Error en el formulario, verifique los campos';
     }
   }
   //delete data

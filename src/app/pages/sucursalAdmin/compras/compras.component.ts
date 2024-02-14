@@ -86,6 +86,19 @@ export class ComprasComponent implements OnInit {
     this.formulario.get('precio')!.valueChanges.subscribe((val) => {
       this.actualizarSubtotal();
     });
+
+    this.formulario.get('tipago')!.valueChanges.subscribe((val) => {
+      if (val === 'CREDITO') {
+        this.formulario.patchValue({
+          estadoPago: 'PENDIENTE',
+        });
+      }else{
+        this.formulario.patchValue({
+          estadoPago: 'PAGADO',
+        });
+      }
+    });
+
     this.formularioUpdate.get('cantidad')!.valueChanges.subscribe((val) => {
       this.actualizarSubtotaldelModal();
     });

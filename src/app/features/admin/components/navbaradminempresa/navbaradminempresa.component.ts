@@ -23,4 +23,7 @@ export class NavbaradminempresaComponent {
   tounidadesmedida(){
     this.router.navigate(['unidadesmedida'], {relativeTo: this.route});
   }
+  tousuariosucursal(){
+    this.router.navigate(['usuariosucursal'], {relativeTo: this.route});
+  }
 }

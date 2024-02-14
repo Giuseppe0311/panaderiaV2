@@ -1,6 +1,22 @@
 <div class="overflow-x-auto relative p-44">
     <h1>MIS VENTAS</h1>
-    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+    <span>Generar Reportes</span>
+    <!-- Botones para Exportar -->
+    <div>
+      <button
+        (click)="exportToExcel()"
+        class="mb-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Exportar a Excel
+      </button>
+      <button
+        (click)="exportToPDF()"
+        class="mb-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Exportar a PDF
+      </button>
+    </div>
+    <table id="tablaVentasConcretadas" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
       <thead
         class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
       >

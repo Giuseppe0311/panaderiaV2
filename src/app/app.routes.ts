@@ -27,11 +27,17 @@ import { ProveedoresComponent } from './pages/sucursalAdmin/proveedores/proveedo
 import { ComprasComponent } from './pages/sucursalAdmin/compras/compras.component';
 import { MiscomprasComponent } from './pages/sucursalAdmin/miscompras/miscompras.component';
 import { PagosComponent } from './pages/sucursalAdmin/pagos/pagos.component';
+import { DashboardComponent } from './pages/sucursalAdmin/dashboard/dashboard.component';
+import { RegistarUsuariosSucursalAdminComponent } from './pages/superadmin/registar-usuarios-sucursal-admin/registar-usuarios-sucursal-admin.component';
+import { UsuariosucursaladminComponent } from './pages/admin/usuariosucursaladmin/usuariosucursaladmin.component';
+import { RegisterComponent } from './auth/register/register.component';
 export const routes: Routes = [
     //RUTAS DE USUARIO
     {path:'',component:HomeComponent},
     {path:'empresa/:idempresa',component:SucursalSelecctionComponent},
     {path:'login',component:LoginComponent},
+    {path:'register',component:RegisterComponent},
+    
     {
         path:'empresa/:idempresa/sucursal/:idsucursal',
         component:LayoutComponent,
@@ -51,9 +57,10 @@ export const routes: Routes = [
         component: SuperadminlayoutComponent, // Un componente layout para admin
         // canActivate: [AdminAuthGuard], // Guard para verificar si el usuario es administrador
         canActivate: [RoleGuardService],
-        data: { expectedRoles: ['USER'] },
+        data: { expectedRoles: ['SUPERADMIN'] },
         children: [
             { path: 'empresas', component: EmpresapageComponent }, // Para super administrador
+            {path:'usuarios',component:RegistarUsuariosSucursalAdminComponent}
         //     { path: 'empresa/:idempresa', component: AdminEmpresaDetailComponent, // Detalle de empresa para administrador de empresa
         //       children: [
         //         { path: 'sucursales', component: AdminSucursalesComponent }, // Lista de sucursales para administrador de empresa
@@ -67,12 +74,14 @@ export const routes: Routes = [
     {
         path: 'empresa/:idempresa/admin',
         component: AdminempresalayoutComponent, // Un componente layout para admin
-        // canActivate: [AdminAuthGuard], // Guard para verificar si el usuario es administrador
+        canActivate: [RoleGuardService],
+         data: { expectedRoles: ['ADMIN'] },
         children: [
             { path: 'productos', component: ProductosComponent }, // Para administrador de empresa
             {path:'categorias',component:CategoriasComponent},
             {path:'sucursales',component:SucursalesComponent},
-            {path:'unidadesmedida',component:UnidadesMedidaComponent}
+            {path:'unidadesmedida',component:UnidadesMedidaComponent},
+            {path:'usuariosucursal',component:UsuariosucursaladminComponent}
         ]
     },
     {
@@ -81,6 +90,8 @@ export const routes: Routes = [
          canActivate: [RoleGuardService],
         data: { expectedRoles: ['ADMINSUCURSAL'] },
         children:[
+            {path:'',component:DashboardComponent},
+            {path:'dashboard',component:DashboardComponent},
             {path:'misproductos',component:MisproductosComponent},
             {path:'misventas',component:MisventasComponent},
             {path:'ventasanuladas',component:VentasanuladasComponent},

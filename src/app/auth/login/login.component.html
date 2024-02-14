@@ -7,8 +7,17 @@
             <input formControlName="contrasena" type="password" class="w-full px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium " placeholder="Contraseña" value=""/>
             <button class="bg-slate-500 hover:bg-slate-700 text-white text-base rounded-lg py-2.5 px-5 transition-colors w-full text-[19px]">INICIAR SESIÓN</button>
         </form>
-        <p class="text-center mt-3 text-[14px]">Don&#x27;t have an account? 
-            <a href="/signup" class="text-gray-600">Create one</a>
+        @if (hasErrors(formularioRegistro,'usuario','required')) {
+            <p class="text-red-500 text-center mt-3 text-[10px]">El usuario es requerido</p>
+        }
+        @if (hasErrors(formularioRegistro,'contrasena','required')) {
+            <p class="text-red-500 text-center mt-3 text-[10px]">La Contraseña es requerido</p>
+        }
+        <p class=" text-center mt-3 text-[14px]">Don&#x27;t have an account? 
+            <a (click)="toregister()" class=" cursor-pointer text-gray-600">Create one</a>
         </p>
+        @if (showErrorMessage) {
+            <p class="text-red-500 text-center mt-3 text-[30px]">{{mensaje}}</p>
+        }
     </div>
 </div>

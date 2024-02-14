@@ -17,6 +17,8 @@ export class ProductosComponent {
   idempresa: number | null = null;
   /* VARIABLES DE SERVICIOS */
   apiserviceadmin = inject(ApiServiceService);
+  /* VARIABLES DE mensaje*/
+  message : string = '';
 
   /* VARIABLES DE FORMULARIO */
   formulario: FormGroup;
@@ -219,11 +221,19 @@ export class ProductosComponent {
         (err: any) => {
           this.showerror = true;
           console.log(err);
+          console.log(err.error.message);
+          if (err.error.message) {
+            this.message = err.error.message;
+            
+          }else{
+            this.message = 'Error en el servidor, intente mas tarde';
+          }
           this.isLoading = false;
         }
       );
     }else{
     this.showerror = true;
+    this.message = 'Error en el formulario, verifique los campos';
     }
   }
   actualizar(){
@@ -261,12 +271,18 @@ export class ProductosComponent {
           },
           (err: any) => {
             this.showerrorupdate = true;
-            console.log(err);
+            console.log(err.error.message);
+            if (err.error.message) {
+              this.message = err.error.message;
+            }else{
+              this.message = 'Error en el servidor, intente mas tarde';
+            }
             this.isLoading = false;
           }
         );
     }else{
       this.showerrorupdate = true;
+      this.message = 'Error en el formulario, verifique los campos';
     }
   }
 

@@ -1,16 +1,22 @@
+import { NgClass } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbarsucursal-admin',
   standalone: true,
-  imports: [],
+  imports: [NgClass],
   templateUrl: './navbarsucursal-admin.component.html',
   styleUrl: './navbarsucursal-admin.component.css'
 })
 export class NavbarsucursalAdminComponent {
+    // Propiedad para mantener el ítem activo
+    activo: string = '';
   router = inject(Router);
   route = inject(ActivatedRoute);
+  todashboard(){
+    this.router.navigate(['dashboard'], {relativeTo: this.route});
+  }
   tomisproductos(){
     this.router.navigate(['misproductos'], {relativeTo: this.route});
   }
@@ -34,5 +40,10 @@ export class NavbarsucursalAdminComponent {
   }
   tomispagos(){
     this.router.navigate(['pagos'], {relativeTo: this.route});
+  }
+
+  // Método para actualizar el ítem activo
+  setActivo(item: string) {
+    this.activo = item;
   }
 }

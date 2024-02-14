@@ -17,7 +17,8 @@ export class CategoriasComponent {
  idempresa: number | null = null;
  /* VARIABLES DE SERVICIOS */
  apiserviceadmin = inject(ApiServiceService);
-
+  /* VARIABLES DE MENSAJE*/
+  mensaje: string = '';
  /* VARIABLES DE FORMULARIO */
  formulario: FormGroup;
  updateform: FormGroup;
@@ -149,11 +150,17 @@ export class CategoriasComponent {
       (err: any) => {
         this.showerror = true;
         console.log(err);
+        if (err.error.message) {
+          this.mensaje = err.error.message;
+        }else{
+          this.mensaje = 'Error en el servidor, intente mas tarde';
+        }
         this.isLoading = false;
       }
     );
    }else{
    this.showerror = true;
+   this.mensaje = 'Error en el formulario , verifique los datos ingresados';
    }
  }
  actualizar(){
@@ -179,11 +186,17 @@ export class CategoriasComponent {
         (err: any) => {
           this.showerrorupdate = true;
           console.log(err);
+          if (err.error.message) {
+            this.mensaje = err.error.message;
+          }else{
+            this.mensaje = 'Error en el servidor, intente mas tarde';
+          }
           this.isLoading = false;
         }
       );
    }else{
      this.showerrorupdate = true;
+      this.mensaje = 'Error en el formulario , verifique los datos ingresados';
    }
  }
 

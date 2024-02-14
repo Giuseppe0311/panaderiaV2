@@ -7,7 +7,24 @@
       Registrar Proveedor
     </button>
   </div>
-  <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+
+  <span>Generar Reportes</span>
+  <!-- Botones para Exportar -->
+  <div>
+    <button
+      (click)="exportToExcel()"
+      class="mb-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+    >
+      Exportar a Excel
+    </button>
+    <button
+      (click)="exportToPDF()"
+      class="mb-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+    >
+      Exportar a PDF
+    </button>
+  </div>
+  <table id="tablaProveedores"  class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
     <thead
       class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
     >
@@ -289,8 +306,7 @@
             >
               <strong class="font-bold">Error!</strong>
               <span class="block sm:inline"
-                >Ha ocurrido un error al registrar el Proveedor, todos los
-                campos deben ser llenados correctamente
+                >Ha ocurrido un error al registrar el Proveedor - > <strong>{{mensaje}}</strong>
               </span>
             </div>
           </div>
@@ -516,8 +532,7 @@
             >
               <strong class="font-bold">Error!</strong>
               <span class="block sm:inline"
-                >Ha ocurrido un error al registrar la categoría , todos los
-                campos deben ser llenados correctamente
+                >Ha ocurrido un error al registrar la categoría -> <strong>{{mensaje}}</strong>
               </span>
             </div>
           </div>

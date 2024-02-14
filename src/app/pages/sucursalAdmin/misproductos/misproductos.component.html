@@ -7,7 +7,23 @@
       Registrar Productos para mi Sucursal
     </button>
   </div>
-  <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+  <span>Generar Reportes</span>
+  <!-- Botones para Exportar -->
+  <div> 
+    <button
+      (click)="exportToExcel()"
+      class="mb-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+    >
+      Exportar a Excel
+    </button>
+    <button
+      (click)="exportToPDF()"
+      class="mb-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+    >
+      Exportar a PDF
+    </button>
+  </div>
+  <table id="reportProductos" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
     <thead
       class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
     >
@@ -259,8 +275,7 @@
             >
               <strong class="font-bold">Error!</strong>
               <span class="block sm:inline"
-                >Ha ocurrido un error al registrar el producto , todos los
-                campos deben ser llenados correctamente
+                >Ha ocurrido un error al registrar el producto -> <strong>{{mensaje}}</strong>
               </span>
             </div>
           </div>
@@ -329,7 +344,7 @@
               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="producto"
               type="text"
-              placeholder="Producto a registrar"
+              placeholder="Producto a actualizar"
             >
               @for (item of productosdata; track item.id) {
               <option [value]="item.id">
@@ -430,7 +445,7 @@
             >
               <strong class="font-bold">Actualizacion Exitosa!</strong>
               <span class="block sm:inline"
-                >El producto se ha registrado correctamente</span
+                >El producto se ha actualizado correctamente</span
               >
             </div>
           </div>
@@ -442,8 +457,7 @@
             >
               <strong class="font-bold">Error!</strong>
               <span class="block sm:inline"
-                >Ha ocurrido un error al registrar el producto , todos los
-                campos deben ser llenados correctamente
+                >Ha ocurrido un error al editar el producto de tu sucursal -> <strong>{{mensaje}}</strong>
               </span>
             </div>
           </div>
