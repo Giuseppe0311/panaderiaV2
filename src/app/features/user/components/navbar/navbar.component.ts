@@ -22,6 +22,7 @@ export class NavbarComponent {
   idsucursal : number=0
   isLogged = false
   data : any[] = []
+  imagenEmpresa : string = ''
   usuario : string =''
   dataservice = inject(ApiServiceService)
   carService = inject(CarthandlerService);
@@ -40,6 +41,8 @@ export class NavbarComponent {
     })
     this.subscribeToRouteChanges();
       this.dataservice.getData(ApiType.Public,'categorias',{"idempresa":this.idempresa}).subscribe(data=>{
+        this.imagenEmpresa = data[0].empresa.logo
+        console.log(data)
       this.data= data
       })
   }

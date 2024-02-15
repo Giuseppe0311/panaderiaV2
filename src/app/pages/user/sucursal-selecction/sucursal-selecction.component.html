@@ -1,8 +1,25 @@
-<h1>BIENVENIDO SELECCIONA TU SUCURSAL "INSANO"</h1>
-<h2>Nombre de la empresa : {{nombreEmpresa.nombre}}</h2>
-<select (change)="change($event)" name="" id="">
-    @if (data && data.length > 0) { @for (item of data; track item.id) {
-    <option [selected]="item.id==data[0].id" value="{{ item.id }}">{{ item.nombre }}</option>
-    } }
-  </select>
-  <button (click)="toloyout()">CONFIRMAR</button>
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-xl md:text-3xl font-bold text-center text-gray-800 mb-4">BIENVENIDO SELECCIONA TU SUCURSAL</h1>
+  <h2 class="text-lg md:text-xl text-center text-blue-600 mb-6">Nombre de la empresa : <span>{{nombreEmpresa.nombre}}</span></h2>
+  
+  <div class="flex flex-col items-center">
+    <div class="w-full max-w-md">
+      <div class="relative">
+        <select (change)="change($event)" name="sucursal" id="sucursal" class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+          @if (data && data.length > 0) { 
+            @for (item of data; track item.id) {
+              <option [selected]="item.id==data[0].id" value="{{ item.id }}">{{ item.nombre }}</option>
+            } 
+          }
+        </select>
+        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+          <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+        </div>
+      </div>
+    </div>
+    
+    <button (click)="toloyout()" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+      CONFIRMAR <i class="fas fa-check"></i>
+    </button>
+  </div>
+</div>

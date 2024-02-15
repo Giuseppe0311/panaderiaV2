@@ -18,6 +18,7 @@ export class CategorypageComponent {
   idempresa : number=0
   dataservice = inject(ApiServiceService)
   route = inject(ActivatedRoute)
+  nombreCategoria : string = ''
   data : any[] = []
   ngOnInit(): void {
     this.route.parent?.paramMap.pipe(
@@ -28,10 +29,11 @@ export class CategorypageComponent {
       }),
       switchMap(params => {
         this.idcategoria = Number(params.get('idcategoria'));
-  
         return this.dataservice.getData(ApiType.Public,'productos',{"idsucursal":this.idsucursal,"idcategoria":this.idcategoria});
       })
     ).subscribe(data => {
+      console.log(data);
+      this.nombreCategoria = data[0].productos.nombrecategoria;
       this.data = data;
     });
   }

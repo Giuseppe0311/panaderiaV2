@@ -13,6 +13,7 @@ import { ApiServiceService, ApiType } from '../../../core/services/api-service.s
 export class ProductsPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private dataservice = inject(ApiServiceService);
+  nombreSucursal: string = '';
   products: any[] = [];
   globalcolor = 'green';
   tittle = 'pollo';
@@ -27,6 +28,7 @@ export class ProductsPageComponent implements OnInit {
         .getData(ApiType.Public,'productos',{"idsucursal":this.sucursalid})
         .subscribe((data) => {
           this.products = data;
+          this.nombreSucursal = data[0].nombreSucursal;
         });
     });
   }
