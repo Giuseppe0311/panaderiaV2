@@ -34,6 +34,7 @@ export class ProducDetailComponent  implements OnInit {
     });
         this.dataservice.getData(ApiType.Public,'productos',{"idsucursal":this.idsucursal,"idproducto":this.idproducto}).subscribe(
           data => {
+            console.log(data)
             this.data=data
           }
         )
