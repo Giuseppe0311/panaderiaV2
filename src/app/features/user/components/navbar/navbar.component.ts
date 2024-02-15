@@ -69,7 +69,15 @@ export class NavbarComponent {
     }
   }
   tocart(){
+    if(this.isBrowser()){
+      const returnUrl = `/empresa/${this.idempresa}/sucursal/${this.idsucursal}/cart`;
+      localStorage.setItem('returnUrl', returnUrl); 
+    }
     this.router.navigate(['/empresa', this.idempresa, 'sucursal', this.idsucursal,'cart']);
+
+  }
+  private isBrowser(): boolean {
+    return typeof window !== 'undefined';
   }
   cerrarSession(){
     this.authservice.logout()

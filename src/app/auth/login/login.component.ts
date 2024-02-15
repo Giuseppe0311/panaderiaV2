@@ -44,7 +44,10 @@ export class LoginComponent {
           this.router.navigate([`/empresa/${decodeToken.idempresa}/admin`]);
         }else if(decodeToken.roles === 'USER'){
           //redireccionar a la pagina de usuario del return url o a la raiz
-          this.router.navigate([`/`]);
+          if (this.isBrowser()) {
+            const returnUrl = localStorage.getItem('returnUrl') || '/';
+            this.router.navigateByUrl(returnUrl);
+          }
         }
       },
       error: (error) => {
