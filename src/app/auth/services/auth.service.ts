@@ -19,8 +19,12 @@ export class AuthService {
 
   constructor(private http: HttpClient) {
     if (this.isBrowser()) {
-      this.currentUserLoginOn.next(sessionStorage.getItem('token') != null);
-      this.currentUserData.next(sessionStorage.getItem('datos') || '');
+      const tokenExists = sessionStorage.getItem('token') != null;
+      this.currentUserLoginOn.next(tokenExists);
+      if (tokenExists) {
+        const userData = JSON.parse(sessionStorage.getItem('datos') || '{}');
+        this.currentUserData.next(userData);
+      }
     }
   }
 
@@ -61,6 +65,7 @@ export class AuthService {
         const decoded = jwtDecode(token);
         console.log(decoded);
         this.currentUserData.next(decoded);
+        sessionStorage.setItem('datos',JSON.stringify(decoded));
         return decoded;
       }
     }
@@ -77,6 +82,7 @@ export class AuthService {
   logout(): void {
     if (this.isBrowser()) {
       sessionStorage.removeItem('token');
+      sessionStorage.removeItem('datos');
       this.currentUserLoginOn.next(false);
       this.currentUserData.next('');
     }

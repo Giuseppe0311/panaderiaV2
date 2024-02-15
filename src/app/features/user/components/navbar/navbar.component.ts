@@ -1,13 +1,14 @@
 import { NgClass } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CarthandlerService } from '../../services/carthandler.service';
 import { ApiServiceService, ApiType } from '../../../../core/services/api-service.service';
+import { AuthService } from '../../../../auth/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [NgClass],
+  imports: [NgClass,RouterLink],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
@@ -15,12 +16,28 @@ export class NavbarComponent {
   linkColor = 'green';
   private router = inject(Router)
   private route = inject(ActivatedRoute)
+  private authservice = inject(AuthService)
+
   idempresa : number = 0
   idsucursal : number=0
+  isLogged = false
   data : any[] = []
+  usuario : string =''
   dataservice = inject(ApiServiceService)
   carService = inject(CarthandlerService);
   ngOnInit(): void {
+    this.authservice.currentUserLoginOn.subscribe(data => {
+      if(data){
+        console.log(data)
+        this.isLogged = true
+        this.authservice.currentUserData.subscribe(data => {
+          console.log(data)
+          if(data){
+            this.usuario = data.sub
+          }
+        })
+      }
+    })
     this.subscribeToRouteChanges();
       this.dataservice.getData(ApiType.Public,'categorias',{"idempresa":this.idempresa}).subscribe(data=>{
       this.data= data
@@ -50,5 +67,9 @@ export class NavbarComponent {
   }
   tocart(){
     this.router.navigate(['/empresa', this.idempresa, 'sucursal', this.idsucursal,'cart']);
+  }
+  cerrarSession(){
+    this.authservice.logout()
+    this.isLogged = false
   }
 }

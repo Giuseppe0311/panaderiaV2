@@ -146,13 +146,14 @@ export class CartpageComponent implements OnInit {
       }
       this.apiservice.postData(ApiType.User,'ventas',datos).subscribe(
         (res: any) => {
+          this.route.navigate(['thankspage'], { relativeTo: this.router.parent });
           console.log(res);
         },
         (err: any) => {
           console.log(err);
         }
       ); 
-      alert('Muchas Gracias por su compra!');
+      
       this.carService.clearCart();
       this.items;
       this.documentoForm.reset();

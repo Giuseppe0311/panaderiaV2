@@ -31,6 +31,7 @@ import { DashboardComponent } from './pages/sucursalAdmin/dashboard/dashboard.co
 import { RegistarUsuariosSucursalAdminComponent } from './pages/superadmin/registar-usuarios-sucursal-admin/registar-usuarios-sucursal-admin.component';
 import { UsuariosucursaladminComponent } from './pages/admin/usuariosucursaladmin/usuariosucursaladmin.component';
 import { RegisterComponent } from './auth/register/register.component';
+import { ThankspageComponent } from './pages/user/thankspage/thankspage.component';
 export const routes: Routes = [
     //RUTAS DE USUARIO
     {path:'',component:HomeComponent},
@@ -47,8 +48,9 @@ export const routes: Routes = [
             {path:'categoria/:idcategoria',component:CategorypageComponent},
             {path:'cart',component:CartpageComponent,
             canActivate: [RoleGuardService],
-            data: { expectedRoles: ['USER'], }
-            }
+            data: { expectedRoles: ['USER'], },
+            },
+            {path:'thankspage',component:ThankspageComponent}
         ]
     },
    // RUTA PARA EL SUPERAADMIN

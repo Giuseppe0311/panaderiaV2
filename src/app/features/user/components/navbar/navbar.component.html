@@ -44,6 +44,41 @@
           }
         </ul>
       </div>
+      <!-- Botón de Inicio/Cierre de Sesión -->
+    <!-- Si el usuario NO está logueado -->
+    
+       <!-- Botón de Inicio/Cierre de Sesión -->
+    <!-- Si el usuario NO está logueado -->
+   
+    <div class="flex items-center space-x-4"> 
+      @if (!isLogged) {
+      <!-- Condición corregida: Si el usuario NO está logueado -->
+      <div>
+        <button routerLink="/login" class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded flex items-center transition duration-150 ease-in-out">
+          <i class="fas fa-sign-in-alt mr-2"></i> Iniciar sesión
+        </button>
+      </div>
+    }@else{
+      <!-- Si el usuario está logueado -->
+      <div class="flex items-center space-x-5">
+        <i class="fas fa-user-circle text-5xl mr-2"></i> <!-- Icono de usuario más grande -->
+        <span class="text-gray-800 text-lg font-medium">Hola, {{usuario}}</span>
+        <button (click)="cerrarSession()" class="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded flex items-center transition duration-150 ease-in-out">
+          <i class="fas fa-sign-out-alt mr-2"></i> Cerrar sesión
+        </button>
+      </div>
+    }
+    </div>
+
+
+
+
+
+
+
+
+    <!-- Si el usuario está logueado -->
+    
       <!-- <div
         [ngClass]="{
         'flex':true,
