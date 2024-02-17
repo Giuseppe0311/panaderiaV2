@@ -96,7 +96,9 @@ export class CartpageComponent implements OnInit {
   incrementar(id: number) {
     this.cartitems.find((item) => {
       if (item.product.productos.id == id) {
-        this.carService.addItem(item.product, 1);
+        if (item.quantity+1 <= item.product.stock) {
+          this.carService.addItem(item.product, 1, item.product.stock);
+        }
       }
     });
   }
@@ -104,7 +106,7 @@ export class CartpageComponent implements OnInit {
     this.cartitems.find((item) => {
       if (item.product.productos.id == id) {
         if (item.quantity > 1) {
-          this.carService.addItem(item.product, -1);
+          this.carService.addItem(item.product, -1, item.product.stock);
         }
       }
     });
@@ -151,6 +153,13 @@ export class CartpageComponent implements OnInit {
         },
         (err: any) => {
           console.log(err);
+          if (err.error.message) {
+            alert('Error al realizar la venta' + err.error.message); 
+            this.isLoading = false;
+            this.carService.clearCart();
+          }else{
+            alert('Error al realizar la venta');
+          }
         }
       ); 
       

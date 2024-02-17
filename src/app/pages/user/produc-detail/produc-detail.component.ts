@@ -47,14 +47,26 @@ export class ProducDetailComponent  implements OnInit {
 
   }
   aumentar(){
-    this.quantiy++
-    this.productadded=false
+    if (this.quantiy < this.data.stock) {
+      this.quantiy++;
+      this.productadded = false;
+    }
   }
 
   addCart(){
-    this.productadded=true
-    this.auxquenatity=this.auxquenatity+this.quantiy
-    this.cartService.addItem(this.data,this.quantiy)
+     // Calcula la cantidad total que se intenta añadir al carrito para este producto
+  const cantidadTotalIntentandoAñadir = this.auxquenatity + this.quantiy;
+
+  // Verifica si la cantidad total intentando añadir no excede el stock disponible
+  if (cantidadTotalIntentandoAñadir <= this.data.stock) {
+    // Si no excede, procede a añadir al carrito
+    this.productadded = true;
+    this.auxquenatity = cantidadTotalIntentandoAñadir; // Actualiza la cantidad auxiliar con el total intentando añadir
+    this.cartService.addItem(this.data, this.quantiy, this.data.stock);
+  } else {
+    // Aquí puedes implementar alguna notificación al usuario, por ejemplo, usando un modal, un toast o un mensaje en la página.
+    this.productadded = false; // Considera si esta línea es necesaria según tu lógica de UI
+  }
   }
 
 }

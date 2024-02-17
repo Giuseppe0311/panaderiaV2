@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 
 interface CartItem{
   product : any,
-  quantity : number
+  quantity : number,
+  stockavailable : number
 }
 
 @Injectable({
@@ -14,14 +15,14 @@ export class CarthandlerService {
   getItems(){
     return this.items
   }
-  addItem(product:any,quantity:number){
+  addItem(product:any,quantity:number,stock:number){
     const existingItem = this.items.find(item => item.product.productos.id === product.productos.id);
     if (existingItem) {
       // Si el producto ya está en el carrito, aumenta la cantidad
       existingItem.quantity += quantity;
     } else {
       // Si no está, agrega el producto al carrito
-      this.items.push({ product, quantity });
+      this.items.push({ product, quantity , stockavailable: stock});
     }
   }
   deleteItem(idproducto: number){
