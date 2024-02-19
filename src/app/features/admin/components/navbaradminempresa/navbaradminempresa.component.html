@@ -1,81 +1,105 @@
 <!-- start: Sidebar -->
-<div class="fixed left-0 top-0 w-64 h-full bg-gray-900 p-4 z-50 sidebar-menu transition-transform">
-    <div class="flex items-center pb-4 border-b border-b-gray-800">
-        <img src={{data.logo}} alt="" class="w-14 h-14 rounded object-cover">
-        <span class="text-lg font-bold text-white ml-3">{{data.nombre}}</span>
-    </div>
-    <!-- NOMBRE DE LA EMPRESA -->
-    <div class="flex items-center justify-between mt-4">
+<div
+  class="fixed left-0 top-0 w-64 h-full bg-gray-900 p-4 z-50 sidebar-menu transition-transform"
+>
+  <div class="flex items-center pb-4 border-b border-b-gray-800">
+    <img src="{{ data.logo }}" alt="" class="w-14 h-14 rounded object-cover" />
+    <span class="text-lg font-bold text-white ml-3">{{ data.nombre }}</span>
+  </div>
+  <!-- NOMBRE DE LA EMPRESA -->
+  <div class="flex items-center justify-between mt-4">
     <ul class="mt-4">
-        <li class="mb-1 group active">
-            <a  class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-                <i class="ri-home-2-line mr-3 text-lg"></i>
-                <span class="text-sm">Dashboard</span>
-            </a>
-        </li>
-        <li class="mb-1 group">
-            <a (click)="toproductos()" class=" cursor-pointer flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-                <i class="ri-settings-2-line mr-3 text-lg"></i>
-                <span class="text-sm">Productos</span>
-            </a>
-        </li>
-        <li class="mb-1 group">
-            <a (click)="tocategorias()" class=" cursor-pointer flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-                <i class="ri-settings-2-line mr-3 text-lg"></i>
-                <span class="text-sm">Categorias</span>
-            </a>
-        </li>
-        <li class="mb-1 group">
-            <a (click)="tosucursales()" class=" cursor-pointer flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-                <i class="ri-settings-2-line mr-3 text-lg"></i>
-                <span class="text-sm">Sucursales</span>
-            </a>
-        </li>
-        <li class="mb-1 group">
-            <a (click)="tounidadesmedida()" class=" cursor-pointer flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-                <i class="ri-settings-2-line mr-3 text-lg"></i>
-                <span class="text-sm">Unidades de Medida</span>
-            </a>
-        </li>
-        <li class="mb-1 group">
-            <a (click)="tousuariosucursal()" class=" cursor-pointer flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-                <i class="ri-settings-2-line mr-3 text-lg"></i>
-                <span class="text-sm">Usuarios Para Sucursal</span>
-            </a>
-        </li>
-        @if (!isLogged) {
-            <li class="mb-1 group">
-              <div class="flex items-center space-x-4">
-                <div>
-                  <button
-                    routerLink="/login"
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded flex items-center transition duration-150 ease-in-out"
-                  >
-                    <i class="fas fa-sign-in-alt mr-2"></i> Iniciar sesión
-                  </button>
-                </div>
-              </div>
-            </li>
-            }@else {
-            <li class=" mt-5 mb-1 group">
-              <div class="flex items-center space-x-4">
-                <div class="flex-col gap-3 justify-center items-center space-x-5">
-                  <!-- Icono de usuario más grande -->
-                  <span class="text-lg font-medium text-white">Hola,{{ usuario }}</span>
-        
-                  <button
-                    (click)="cerrarSesion()"
-                    class="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded flex items-center transition duration-150 ease-in-out"
-                  >
-                    <i class="fas fa-sign-out-alt mr-2"></i> Cerrar sesión
-                  </button>
-                </div>
-              </div>
-            </li>
-            }
+      <li class="mb-1 group active">
+        <a
+          class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100"
+        >
+          <i class="ri-home-2-line mr-3 text-lg"></i>
+          <span class="text-sm"> <i class="fas fa-home mr-2"></i>MENÚ</span>
+        </a>
+      </li>
+      <li class="mb-1 group">
+        <a
+          (click)="toproductos()"
+          class="cursor-pointer flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100"
+        >
+          <i class="ri-settings-2-line mr-3 text-lg"></i>
+          <span class="text-sm">Productos</span>
+        </a>
+      </li>
+      <li class="mb-1 group">
+        <a
+          (click)="tocategorias()"
+          class="cursor-pointer flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100"
+        >
+          <i class="ri-settings-2-line mr-3 text-lg"></i>
+          <span class="text-sm">Categorias</span>
+        </a>
+      </li>
+      <li class="mb-1 group">
+        <a
+          (click)="tosucursales()"
+          class="cursor-pointer flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100"
+        >
+          <i class="ri-settings-2-line mr-3 text-lg"></i>
+          <span class="text-sm">Sucursales</span>
+        </a>
+      </li>
+      <li class="mb-1 group">
+        <a
+          (click)="tounidadesmedida()"
+          class="cursor-pointer flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100"
+        >
+          <i class="ri-settings-2-line mr-3 text-lg"></i>
+          <span class="text-sm">Unidades de Medida</span>
+        </a>
+      </li>
+      <li class="mb-1 group">
+        <a
+          (click)="tousuariosucursal()"
+          class="cursor-pointer flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100"
+        >
+          <i class="ri-settings-2-line mr-3 text-lg"></i>
+          <span class="text-sm">Usuarios Para Sucursal</span>
+        </a>
+      </li>
+      @if (!isLogged) {
+      <li class="mb-1 group">
+        <div class="flex items-center space-x-4">
+          <div>
+            <button
+              routerLink="/login"
+              class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded flex items-center transition duration-150 ease-in-out"
+            >
+              <i class="fas fa-sign-in-alt mr-2"></i> Iniciar sesión
+            </button>
+          </div>
+        </div>
+      </li>
+      }@else {
+      <li class="mt-5 mb-1 group">
+        <div class="flex items-center space-x-4">
+          <div class="flex-col gap-3 justify-center items-center space-x-5">
+            <!-- Icono de usuario más grande -->
+            <span class="text-lg font-medium text-white"
+              >Hola,{{ usuario }}</span
+            >
+
+            <button
+              (click)="cerrarSesion()"
+              class="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded flex items-center transition duration-150 ease-in-out"
+            >
+              <i class="fas fa-sign-out-alt mr-2"></i> Cerrar sesión
+            </button>
+          </div>
+        </div>
+      </li>
+      }
     </ul>
+  </div>
+  <div
+    class="fixed top-0 left-0 w-full h-full bg-black/50 z-40 md:hidden sidebar-overlay"
+  ></div>
+  <!-- end: Sidebar -->
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </div>
-<div class="fixed top-0 left-0 w-full h-full bg-black/50 z-40 md:hidden sidebar-overlay"></div>
-<!-- end: Sidebar -->
-<script src="https://unpkg.com/@popperjs/core@2"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

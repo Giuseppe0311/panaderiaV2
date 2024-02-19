@@ -1,64 +1,143 @@
 <div id="boletapago">
-    <div
-    >
-      <h2 style="text-align: center">COMPROBANTE DE VENTA</h2>
-      <div style="margin-bottom: 20px">
-        <p><strong>Fecha:</strong> {{ fecha }}</p>
-        <p>
-          <strong>Comprobante:</strong> {{ num_comprobante }} ({{
-            tipo_comprobante
-          }})
-        </p>
-        <p><strong>Tipo de Pago:</strong> {{ tipo_pago }}</p>
-        <p><strong>Usuario:</strong> {{ usuario }}</p>
-        <p><strong>Sucursal:</strong> {{ nombre_sucursal }}</p>
+  <div class="bg-blue-50 border border-solid border-blue-900 ml-2 mr-2 mt-5">
+    <div style="display: flex; align-items: center; justify-content: center">
+      <div class="mt-3 mr-20">
+        <img
+          width="30"
+          height="30"
+          src="https://img.icons8.com/ios-filled/30/bakery.png"
+          alt="bakery"
+        />
       </div>
-  
-      <h3>Detalle de Compra</h3>
-      <table
-        style="width: 100%; border-collapse: collapse; border: 1px solid black"
-      >
-        <thead>
-          <tr>
-            <th style="border: 1px solid black; padding: 8px">Producto</th>
-            <th style="border: 1px solid black; padding: 8px">Cantidad</th>
-            <th style="border: 1px solid black; padding: 8px">Precio Venta</th>
-            <th style="border: 1px solid black; padding: 8px">Subtotal</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (item of datoProductospdf; track $index) {
-          <tr>
-            <td style="border: 1px solid black; padding: 8px">
-              {{ item.nombreProducto }}
-            </td>
-            <td style="border: 1px solid black; padding: 8px">
-              {{ item.cantidad }}
-            </td>
-            <td style="border: 1px solid black; padding: 8px">
-              {{ item.precioVenta }}
-            </td>
-            <td style="border: 1px solid black; padding: 8px">
-              {{ item.subtotal }}
-            </td>
-          </tr>
-          }
-        </tbody>
-      </table>
-  
-      <div style="margin-top: 20px; text-align: right">
-        <p><strong>Total:</strong> {{ total }}</p>
+      <div class="mt-3">
+        <h2 style="text-align: center; font-weight: bold; margin: 0 10px">
+          COMPROBANTE DE VENTA
+        </h2>
+      </div>
+      <div class="mt-3 ml-20">
+        <img
+          width="30"
+          height="30"
+          src="https://img.icons8.com/ios-filled/30/bakery.png"
+          alt="bakery"
+        />
       </div>
     </div>
-    <!-- BOTON BONIDO DE GENERAR PDF -->
-    <div style="text-align: center; margin-top: 20px">
-      <button
-      style="border-color: greenyellow; background-color: greenyellow; color: black;"
-        mat-raised-button
-        color="primary"
-        (click)="generarPDF()"
-      >
-        Generar PDF
-      </button>
-  </div>
 
+    <div class="mt-4 ml-5 mr-5 mb-4 border border-solid border-blue-900">
+      <p><strong>Fecha:</strong> {{ fecha }}</p>
+      <p>
+        <strong>Comprobante:</strong> {{ num_comprobante }} ({{
+          tipo_comprobante
+        }})
+      </p>
+      <p><strong>Tipo de Pago:</strong> {{ tipo_pago }}</p>
+      <p><strong>Usuario:</strong> {{ usuario }}</p>
+      <p style="margin-bottom: 5px">
+        <strong>Sucursal:</strong> {{ nombre_sucursal }}
+      </p>
+    </div>
+
+    <h3 style="margin-left: 20px; margin-bottom: 5px; font-weight: bold">
+      Detalles de la venta:
+    </h3>
+    <table
+      style="
+        width: 90%;
+        margin-left: 20px;
+        border-collapse: collapse;
+        border: 1px solid black;
+      "
+    >
+      <thead>
+        <tr>
+          <th
+            style="
+              border: 1px solid black;
+              padding: 8px;
+              background-color: #1a202c;
+              color: white;
+            "
+          >
+            Producto
+          </th>
+          <th
+            style="
+              border: 1px solid black;
+              padding: 8px;
+              background-color: #1a202c;
+              color: white;
+            "
+          >
+            Cantidad
+          </th>
+          <th
+            style="
+              border: 1px solid black;
+              padding: 8px;
+              background-color: #1a202c;
+              color: white;
+            "
+          >
+            Precio Venta
+          </th>
+          <th
+            style="
+              border: 1px solid black;
+              padding: 8px;
+              background-color: #1a202c;
+              color: white;
+            "
+          >
+            Subtotal
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of datoProductospdf; track $index) {
+        <tr>
+          <td style="border: 1px solid black; padding: 8px">
+            {{ item.nombreProducto }}
+          </td>
+          <td style="border: 1px solid black; padding: 8px">
+            {{ item.cantidad }}
+          </td>
+          <td style="border: 1px solid black; padding: 8px">
+            {{ item.precioVenta }}
+          </td>
+          <td style="border: 1px solid black; padding: 8px">
+            {{ item.subtotal }}
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+
+    <div
+      style="
+        margin-top: 20px;
+        margin-bottom: 20px;
+        margin-right: 60px;
+        text-align: right;
+      "
+    >
+      <p><strong>Total:</strong> {{ total }}</p>
+    </div>
+  </div>
+  <!-- BOTON BONIDO DE GENERAR PDF -->
+
+  
+</div>
+
+<div style="text-align: center; margin-top: 20px">
+  <button
+  mat-raised-button
+  color="primary"
+  class="mt-5 bg-red-700 hover:bg-red-700 text-white font-bold py-1 px-2 rounded ml-10"
+  (click)="generarPDF()"
+>
+  <i class="fas fa-file-pdf mr-1"></i>
+  <!-- Icono de PDF de FontAwesome -->
+  Generar PDF
+  </button>
+</div>

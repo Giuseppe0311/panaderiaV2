@@ -1,30 +1,49 @@
-<div class="overflow-x-auto relative p-44">
-  <div class="pb-5">
+<div class="bg-blue-100 ml-2 mr-2 overflow-x-auto p-38">
+  <div class="pb-5 flex items-center">
     <button
       (click)="showmodalregistrar()"
-      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+      class="mt-10 ml-4 mr-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
     >
       Registrar Proveedor
     </button>
+    <div class="mt-6">
+      <img
+        width="50"
+        height="50"
+        src="https://img.icons8.com/wired/50/supplier.png"
+        alt="supplier"
+      />
+    </div>
   </div>
-
-  <span>Generar Reportes</span>
-  <!-- Botones para Exportar -->
-  <div>
-    <button
-      (click)="exportToExcel()"
-      class="mb-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+  <div class="mb-4 bg-yellow-200 p-4">
+    <!-- Contenido del div -->
+    <span class="text-gray-700 font-bold"
+      >GENERAR REPORTE DE LOS PROVEEDORES:</span
     >
-      Exportar a Excel
-    </button>
-    <button
-      (click)="exportToPDF()"
-      class="mb-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-    >
-      Exportar a PDF
-    </button>
+    <!-- Botones para Exportar -->
+    <div>
+      <button
+        (click)="exportToExcel()"
+        class="mb-1 mr-4 bg-green-800 hover:bg-green-800 text-white font-bold py-2 px-4 rounded"
+      >
+        <i class="fas fa-file-excel mr-1"></i>
+        <!-- Icono de Excel de FontAwesome -->
+        Exportar a Excel
+      </button>
+      <button
+        (click)="exportToPDF()"
+        class="mb-1 bg-red-700 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+      >
+        <i class="fas fa-file-pdf mr-1"></i>
+        <!-- Icono de PDF de FontAwesome -->
+        Exportar a PDF
+      </button>
+    </div>
   </div>
-  <table id="tablaProveedores"  class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+  <table
+    id="tablaProveedores"
+    class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+  >
     <thead
       class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
     >
@@ -192,13 +211,11 @@
             @if (hasErrors(formulario,'telefono', 'required')) {
             <span style="color: red">Telefono requerido *</span>
             } @if (hasErrors(formulario,'telefono', 'pattern')) {
-            <span style="color: red">Telefono INVALIDO  * </span>
-            }
-            @if (hasErrors(formulario,'telefono', 'minlength')) {
-                <span style="color: red">Telefono debe tener solo 9 digitos *</span>
-            }
-            @if (hasErrors(formulario,'telefono', 'maxlength')) {
-                <span style="color: red">Telefono debe tener solo 9 digitos *</span>
+            <span style="color: red">Telefono INVALIDO * </span>
+            } @if (hasErrors(formulario,'telefono', 'minlength')) {
+            <span style="color: red">Telefono debe tener solo 9 digitos *</span>
+            } @if (hasErrors(formulario,'telefono', 'maxlength')) {
+            <span style="color: red">Telefono debe tener solo 9 digitos *</span>
             }
           </div>
           <!--  -->
@@ -238,15 +255,12 @@
             />
             @if (hasErrors(formulario,'ruc', 'required')) {
             <span style="color: red">RUC requerido *</span>
-            }
-            @if (hasErrors(formulario,'ruc', 'pattern')) {
-                <span style="color: red">RUC  invalido *</span>
-                }
-            @if (hasErrors(formulario,'ruc', 'minlength')) {
-                <span style="color: red">RUC debe tener 11 digitos *</span>
-            }
-            @if (hasErrors(formulario,'ruc', 'maxlength')) {
-                <span style="color: red">RUC debe tener 11 digitos *</span>
+            } @if (hasErrors(formulario,'ruc', 'pattern')) {
+            <span style="color: red">RUC invalido *</span>
+            } @if (hasErrors(formulario,'ruc', 'minlength')) {
+            <span style="color: red">RUC debe tener 11 digitos *</span>
+            } @if (hasErrors(formulario,'ruc', 'maxlength')) {
+            <span style="color: red">RUC debe tener 11 digitos *</span>
             }
           </div>
           <!--  -->
@@ -306,7 +320,8 @@
             >
               <strong class="font-bold">Error!</strong>
               <span class="block sm:inline"
-                >Ha ocurrido un error al registrar el Proveedor - > <strong>{{mensaje}}</strong>
+                >Ha ocurrido un error al registrar el Proveedor - >
+                <strong>{{ mensaje }}</strong>
               </span>
             </div>
           </div>
@@ -417,15 +432,12 @@
             />
             @if (hasErrors(updateform,'telefono', 'required')) {
             <span style="color: red">Telefono requerido</span>
-            }
-            @if (hasErrors(updateform,'telefono', 'pattern')) {
-                <span style="color: red">Telefono INVALIDO  * </span>
-            }
-            @if (hasErrors(updateform,'telefono', 'minlength')) {
-                <span style="color: red">Telefono debe tener solo 9 digitos *</span>
-            }
-            @if (hasErrors(updateform,'telefono', 'maxlength')) {
-                <span style="color: red">Telefono debe tener solo 9 digitos *</span>
+            } @if (hasErrors(updateform,'telefono', 'pattern')) {
+            <span style="color: red">Telefono INVALIDO * </span>
+            } @if (hasErrors(updateform,'telefono', 'minlength')) {
+            <span style="color: red">Telefono debe tener solo 9 digitos *</span>
+            } @if (hasErrors(updateform,'telefono', 'maxlength')) {
+            <span style="color: red">Telefono debe tener solo 9 digitos *</span>
             }
           </div>
           <!--  -->
@@ -445,8 +457,7 @@
             />
             @if (hasErrors(updateform,'email', 'required')) {
             <span style="color: red">Email requerido</span>
-            }
-            @if (hasErrors(updateform,'email', 'email')) {
+            } @if (hasErrors(updateform,'email', 'email')) {
             <span style="color: red">Email invalido</span>
             }
           </div>
@@ -464,15 +475,12 @@
             />
             @if (hasErrors(updateform,'ruc', 'required')) {
             <span style="color: red">RUC requerido</span>
-            }
-            @if (hasErrors(updateform,'ruc', 'pattern')) {
-                <span style="color: red">RUC  invalido *</span>
-                }
-            @if (hasErrors(updateform,'ruc', 'minlength')) {
-                <span style="color: red">RUC debe tener 11 digitos *</span>
-            }
-            @if (hasErrors(updateform,'ruc', 'maxlength')) {
-                <span style="color: red">RUC debe tener 11 digitos *</span>
+            } @if (hasErrors(updateform,'ruc', 'pattern')) {
+            <span style="color: red">RUC invalido *</span>
+            } @if (hasErrors(updateform,'ruc', 'minlength')) {
+            <span style="color: red">RUC debe tener 11 digitos *</span>
+            } @if (hasErrors(updateform,'ruc', 'maxlength')) {
+            <span style="color: red">RUC debe tener 11 digitos *</span>
             }
           </div>
 
@@ -532,7 +540,8 @@
             >
               <strong class="font-bold">Error!</strong>
               <span class="block sm:inline"
-                >Ha ocurrido un error al registrar la categoría -> <strong>{{mensaje}}</strong>
+                >Ha ocurrido un error al registrar la categoría ->
+                <strong>{{ mensaje }}</strong>
               </span>
             </div>
           </div>

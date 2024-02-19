@@ -1,23 +1,57 @@
 <!-- component -->
 <div class="max-w-[280px] mx-auto">
-    <div class="flex flex-col items-center mt-[10vh]">
-        <h2 class="mb-5 text-gray-900 font-mono font-bold text-xl">Iniciar Sesión</h2>
-        <form [formGroup]="formularioRegistro" (submit)="login()">
-            <input formControlName="usuario" type="text" class="w-full px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium " placeholder="Usuario" value=""/>
-            <input formControlName="contrasena" type="password" class="w-full px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium " placeholder="Contraseña" value=""/>
-            <button class="bg-slate-500 hover:bg-slate-700 text-white text-base rounded-lg py-2.5 px-5 transition-colors w-full text-[19px]">INICIAR SESIÓN</button>
-        </form>
-        @if (hasErrors(formularioRegistro,'usuario','required')) {
-            <p class="text-red-500 text-center mt-3 text-[10px]">El usuario es requerido</p>
-        }
-        @if (hasErrors(formularioRegistro,'contrasena','required')) {
-            <p class="text-red-500 text-center mt-3 text-[10px]">La Contraseña es requerido</p>
-        }
-        <p class=" text-center mt-3 text-[14px]">Don&#x27;t have an account? 
-            <a (click)="toregister()" class=" cursor-pointer text-gray-600">Create one</a>
-        </p>
-        @if (showErrorMessage) {
-            <p class="text-red-500 text-center mt-3 text-[30px]">{{mensaje}}</p>
-        }
+    <div
+      class="flex flex-col items-center mt-[15vh] border border-solid border-blue-900 p-10 rounded-lg shadow-lg shadow-blue-300"
+    >
+      <div class="flex items-center mb-5">
+        <h2 class="mr-2 text-gray-900 font-mono font-bold text-xl">
+          Iniciar Sesión
+        </h2>
+        <img
+          width="30"
+          height="30"
+          src="https://img.icons8.com/fluency/45/user-male-circle--v1.png"
+          alt="user-male-circle--v1"
+        />
+      </div>
+      <form [formGroup]="formularioRegistro" (submit)="login()">
+        <input
+          formControlName="usuario"
+          type="text"
+          class="w-full px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium"
+          placeholder="Usuario"
+          value=""
+        />
+        <input
+          formControlName="contrasena"
+          type="password"
+          class="w-full px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium"
+          placeholder="Contraseña"
+          value=""
+        />
+        <button
+          class="mt-2 bg-blue-500 hover:bg-slate-700 text-white text-base rounded-lg py-2.5 px-5 transition-colors w-full text-[19px]"
+        >
+          INICIAR SESIÓN
+        </button>
+      </form>
+      @if (hasErrors(formularioRegistro,'usuario','required')) {
+      <p class="text-red-500 text-center mt-3 text-[10px]">
+        El usuario es requerido
+      </p>
+      } @if (hasErrors(formularioRegistro,'contrasena','required')) {
+      <p class="text-red-500 text-center mt-3 text-[10px]">
+        La Contraseña es requerido
+      </p>
+      }
+      <p class="text-center mt-3 text-[14px]">
+        ¿No tiene cuenta de acceso?
+        <a (click)="toregister()" class="cursor-pointer text-gray-600"
+          >Crear cuenta</a
+        >
+      </p>
+      @if (showErrorMessage) {
+      <p class="text-red-500 text-center mt-3 text-[30px]">{{ mensaje }}</p>
+      }
     </div>
-</div>
+  </div>
