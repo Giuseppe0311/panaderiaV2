@@ -91,7 +91,7 @@ export class UsuariosucursaladminComponent implements OnInit{
   //load data :
 
   loadData() {
-    this.apiserviceadmin.getData(ApiType.Admin,'usuarios',{bySucursal:true}).subscribe({
+    this.apiserviceadmin.getData(ApiType.Admin,'usuarios',{idEmpresa:this.idEmpresa}).subscribe({
       next: (data) => {
         this.data = data;
         console.log(data)

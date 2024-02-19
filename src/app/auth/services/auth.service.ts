@@ -30,7 +30,7 @@ export class AuthService {
 
   login(usuario: string, contrasena: string): Observable<any> {
     return this.http
-      .post('http://panaderia.spring.informaticapp.com:8081/api/auth/login', { usuario, contrasena })
+      .post('http://panaderia.spring.informaticapp.com:9595/api/auth/login', { usuario, contrasena })
       .pipe(
         tap((data: any) => {
           if (this.isBrowser()) {
@@ -49,7 +49,7 @@ export class AuthService {
       );
   }
   register(data: any): Observable<any> {
-    return this.http.post('http://panaderia.spring.informaticapp.com:8081/api/auth/register', data).pipe(
+    return this.http.post('http://panaderia.spring.informaticapp.com:9595/api/auth/register', data).pipe(
       catchError((err) => {
         console.log(err);
         // Envuelve el error en un Observable para que pueda ser manejado por los suscriptores.

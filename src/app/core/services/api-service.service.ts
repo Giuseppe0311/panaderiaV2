@@ -16,11 +16,11 @@ export enum ApiType {
 export class  ApiServiceService {
   
   private baseUrls = {
-    user: 'http://panaderia.spring.informaticapp.com:8081/api/user', 
-    admin: 'http://panaderia.spring.informaticapp.com:8081/api/admin',
-    public: 'http://panaderia.spring.informaticapp.com:8081/api/public',
-    superadmin: 'http://panaderia.spring.informaticapp.com:8081/api/superadmin',
-    adminSucursal:'http://panaderia.spring.informaticapp.com:8081/api/adminsucursal', 
+    user: 'http://panaderia.spring.informaticapp.com:9595/api/user', 
+    admin: 'http://panaderia.spring.informaticapp.com:9595/api/admin',
+    public: 'http://panaderia.spring.informaticapp.com:9595/api/public',
+    superadmin: 'http://panaderia.spring.informaticapp.com:9595/api/superadmin',
+    adminSucursal:'http://panaderia.spring.informaticapp.com:9595/api/adminsucursal', 
   }
 
   constructor(private httpclient : HttpClient) {}
