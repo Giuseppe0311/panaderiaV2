@@ -16,6 +16,7 @@ Este es un sistema desarrollado con Angular para el frontend y Spring Boot (Java
 
 ## Consideraciones
 ⚠️⚠️Antes de comenzar, asegúrate de tener el backend de la aplicación en ejecución. Puedes encontrar el código fuente y las instrucciones de ejecución [aquí](https://enlace-del-backend)⚠️⚠️.
+⚠️⚠️Colocar la url del backend en el archivo enviroment.ts del proyecto en Angular⚠️⚠️.
 
 ### Backend
 
