@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://apipanaderia-production.up.railway.app/'
+  apiUrl: 'https://apipanaderia-production.up.railway.app'
 };
