@@ -21,8 +21,8 @@ Este es un sistema desarrollado con Angular para el frontend y Spring Boot (Java
 
 ### Backend
 
-- **Código Fuente:** Encuentra el código fuente del backend en [GitHub](https://enlace-del-repositorio-backend).
-- **Instrucciones de Ejecución:** Consulta las instrucciones detalladas sobre cómo ejecutar el backend en el archivo [README del backend](https://enlace-del-readme-backend).
+- **Código Fuente:** Encuentra el código fuente del backend en [GitHub](https://github.com/Giuseppe0311/APIPANADERIA).
+- **Instrucciones de Ejecución:** Consulta las instrucciones detalladas sobre cómo ejecutar el backend en el archivo [README del backend](https://github.com/Giuseppe0311/APIPANADERIA/blob/main/README.md).
 
 ## Tecnologias
 - **Angular:** El frontend está construido con Angular, aprovechando su estructura modular y su rendimiento eficiente.
