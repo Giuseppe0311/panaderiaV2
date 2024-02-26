@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import  {environment} from '../../../environments/environment';
 import { Observable } from 'rxjs';
 
 export enum ApiType {
@@ -16,11 +17,11 @@ export enum ApiType {
 export class  ApiServiceService {
   
   private baseUrls = {
-    user: 'http://panaderia.spring.informaticapp.com:9595/api/user', 
-    admin: 'http://panaderia.spring.informaticapp.com:9595/api/admin',
-    public: 'http://panaderia.spring.informaticapp.com:9595/api/public',
-    superadmin: 'http://panaderia.spring.informaticapp.com:9595/api/superadmin',
-    adminSucursal:'http://panaderia.spring.informaticapp.com:9595/api/adminsucursal', 
+    user: `${environment.apiUrl}/api/user`, 
+    admin: `${environment.apiUrl}/api/admin`,
+    public: `${environment.apiUrl}/api/public`,
+    superadmin: `${environment.apiUrl}/api/superadmin`,
+    adminSucursal:`${environment.apiUrl}/api/adminsucursal`, 
   }
 
   constructor(private httpclient : HttpClient) {}
